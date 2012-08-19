@@ -14,7 +14,7 @@ Tag = tag.Tag
 
 def assertListEqual(self, l_1, l_2):
     """ Replacement of unittest.TestCase.assertListEqual() for 2.6 """
-    return all([item is l_2[i] for i, item in enumerate(l_1)])
+    self.assertTrue(all([item == l_2[i] for i, item in enumerate(l_1)]))
 
 if sys.version < '2.7':
     setattr(unittest.TestCase, 'assertListEqual', assertListEqual)

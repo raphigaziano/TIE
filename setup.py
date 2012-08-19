@@ -17,7 +17,7 @@ config = {
     'download_url': None,
     'license': 'LICENSE.txt',
     'description': 'TODO',
-    'long_description': open('README.txt').read(),
+    'long_description': open('README.rst').read(),
     'install_requires': [
     ]
 }

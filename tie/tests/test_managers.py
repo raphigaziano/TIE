@@ -5,11 +5,19 @@ Tag managers tests
 """
 from __future__ import unicode_literals
 
+import sys
 import unittest
 
 from tie import tag 
 
 Tag = tag.Tag
+
+def assertListEqual(self, l_1, l_2):
+    """ Replacement of unittest.TestCase.assertListEqual() for 2.6 """
+    return all([item is l_2[i] for i, item in enumerate(l_1)])
+
+if sys.version < '2.7':
+    setattr(unittest.TestCase, 'assertListEqual', assertListEqual)
 
 class TestTagManager(unittest.TestCase):
 

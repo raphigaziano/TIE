@@ -1,0 +1,4 @@
+{{ include testinclude.txt }}
+{{ title }}
+Hello, my name is {{ name }}
+I'm {{ age }} years old and my name is {{ name }} !

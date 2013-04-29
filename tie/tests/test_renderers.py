@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+"""
+Template rendererd tests
+"""
+from __future__ import unicode_literals
+
+import unittest
+from tie import renderers
+from tie import template
+from tie import tag
+
+class TestDefaultRenderer(unittest.TestCase):
+
+    def setUp(self):
+        self.render = renderers.default_renderer
+    def tearDown(self):
+        tag.get_manager().clear()
+
+    def test_no_tag_registered(self):
+        """ Template default renderer should return the template string unchanged if no tag has been registrered """
+        tmpl = template.Template("dummydumdum")
+        self.assertEqual(tmpl.template, self.render(tmpl))
+
+    def test_single_tag(self):
+        """ Rendering a single tag template """
+        tag.register("%dummytag%")
+        tmpl = template.Template("dum dummy %dummytag% dumdum")
+        self.assertEqual("dum dummy dummyval dumdum",
+                         self.render(tmpl, **{"%dummytag%": "dummyval"}))
+
+    def test_several_tags(self):
+        """ Rendering a template containing several different tags """
+        tag.register("%dummytag%", "{muddytag}", "--dumdum--")
+        tmpl = template.Template("%dummytag%, {muddytag} & --dumdum--")
+        args = {
+            "%dummytag%" : "dummyval",
+            "{muddytag}" : "foo",
+            "--dumdum--" : "bar"
+        }
+        self.assertEqual("dummyval, foo & bar", self.render(tmpl, **args))
+
+    def test_repeated_tags(self):
+        """ Rendering a template containing repeated tags """
+        tag.register("--dumdum--")
+        tmpl = template.Template("--dumdum--, --dumdum-- & --dumdum--")
+        self.assertEqual("foo, foo & foo",
+                         self.render(tmpl, **{"--dumdum--": "foo"}))

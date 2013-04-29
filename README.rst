@@ -4,7 +4,7 @@ TIE
 
 Template Illiterate Engine
 
-.. image:: TIE.png
+.. image:: https://raw.github.com/raphigaziano/TIE/master/TIE.jpg
    :alt: Twin Ion Engine of Awesomeness
    :aling: center
 

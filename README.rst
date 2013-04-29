@@ -6,7 +6,7 @@ Template Illiterate Engine
 
 .. image:: https://raw.github.com/raphigaziano/TIE/master/TIE.jpg
    :alt: Twin Ion Engine of Awesomeness
-   :aling: center
+   :align: center
 
 .. contents::
 

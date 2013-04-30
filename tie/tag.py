@@ -78,7 +78,7 @@ class TagManager(object):
 # TODO: Test me!
 class PriorityTagManager(TagManager):
     """
-    TagManager that keeps a priority value along its tags and yelds them
+    TagManager that keeps a priority value along its tags and yields them
     in that order.
     """
     def __init__(self):
@@ -89,7 +89,7 @@ class PriorityTagManager(TagManager):
         """
         Register a new tag. 
         tag should be a tupple (tag, priority). If not, priority will
-        defaut to 0.
+        default to 0.
         """
         try:
             tag_obj, priority = tag

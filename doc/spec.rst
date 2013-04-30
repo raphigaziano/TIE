@@ -26,7 +26,7 @@ we'll focus at first on simple substitution features.
 When THIS works, it might be nice to find a way to allow users to define a few 
 "logical" tags, but this will not be a priority for a while.
 
-TYPICAL USE CASES
+Typical Use Cases
 ~~~~~~~~~~~~~~~~~
 
 Small templating needs. (TODO: fluff & exemples)
@@ -77,6 +77,11 @@ callbacks callbacks callbacks
 
 - IDEA: Allow use of simple string patterns ?
 
+- IDEA: Processing tags build up a dictionnary, which is then used in one
+  single re.sub in template.render
+  see:
+  http://emilics.com/blog/article/multi_replace.html
+
 API
 ~~~
 
@@ -94,6 +99,25 @@ To document:
   If viable, advertize this as the way to register verbose regexes or 
   crap.
   
+Performance Notes:
+~~~~~~~~~~~~~~~~~~
+
+As of commit # 549996da31fe55d45c3c0c7f9afa7ae39740850c:
+  
+in Tag.process, for
+
+.. code:: python
+  
+  t.register(
+      "{ (\w+) }"
+  )
+  t = Template("{ title }\nHello, my name is { name } and i'm { age } years old!\nyay!")
+  %timeit t(title="POPO", name="Bob", age=17)
+
+using re.sub: about 80 us per loop.
+
+using string.replace: about 49 us per loop.
+
 Doc:
 ----
 
@@ -108,3 +132,5 @@ Doc:
     http://www.simple-is-better.org/template/pyratemp-latest/pyratemp_tool.py
   - thoughts:
     http://www.simple-is-better.org/template/index.html
+
+

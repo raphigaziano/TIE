@@ -167,8 +167,8 @@ class Tag(object):
             LOGGER.debug("%s matched %s" % (self, src_tag))
             val = self.processor(m, **context)
             LOGGER.debug("Substituting %s for %s" % (val, src_tag))
-            # out = out.replace(src_tag, val)
-            out = re.sub(src_tag, val, out)
+            out = out.replace(src_tag, val)
+            # out = re.sub(src_tag, val, out)
         LOGGER.debug("Found %i matches for %s" % (num_matches, self))
         return out
 

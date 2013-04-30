@@ -75,8 +75,6 @@ class TagManager(object):
                     "Invalid tag %s of type %s" % (tag, type(tag))
             )
 
-
-# TODO: Test me!
 class PriorityTagManager(TagManager):
     """
     TagManager that keeps a priority value along its tags and yields them

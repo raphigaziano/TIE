@@ -12,8 +12,9 @@ from tie import tag
 
 class TestDefaultRenderer(unittest.TestCase):
 
-    def setUp(self):
-        self.render = renderers.default_renderer
+    render = staticmethod(renderers.default_renderer)
+
+    def setUp(self): pass
     def tearDown(self):
         tag.get_manager().clear()
 

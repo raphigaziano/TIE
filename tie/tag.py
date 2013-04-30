@@ -94,7 +94,7 @@ class PriorityTagManager(TagManager):
         """
         try:
             tag_obj, priority = tag
-        except ValueError:
+        except TypeError:
             tag_obj, priority = tag, 0
         tag_obj = self._check_tag(tag_obj)
         self.tag_list.setdefault(priority, []).append(tag_obj)
@@ -197,5 +197,5 @@ def register(*tag_list):
     manager = get_manager()
     for tag in tag_list:
         manager.add(tag)
-        LOGGER.info("Registered: %s" % tag)
+        LOGGER.info("Registered: %s" % utils.unicode(tag))
 

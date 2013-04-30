@@ -48,8 +48,36 @@ class TestPriorityTagManager(unittest.TestCase):
     def tearDown(self):
         tag.get_manager().clear()
 
-    def test_dummy(self): self.fail("TODO")
+    def test_register_with_priority(self):
+        """ Registering tag with a PriorityTagManager """
+        try:
+            tag.register(
+                ("dummy", 0),
+                ("dumdum", 7),
+                ("mudmud", 4)
+            )
+        except Exception:
+            self.fail("Couldnt register Priority Tags")
 
+    def test_register_without_priority(self):
+        """ Registering a tag without specifying a priority: default to 0 """
+        tag_objs = [Tag("dummy"), Tag("dumdum"), Tag("mudmud")]
+        tag.register(*tag_objs)
+        tags = tag.get_manager().tag_list
+        self.assertTrue(0 in tags.keys())
+        self.assertEqual(len(tags[0]), 3)
+        self.assertListEqual(tags[0], tag_objs)
+
+    def test_check_tags_priority(self):
+        """ Checking Tags priority """
+        tag.register(
+            ("dummy", 4),
+            ("dumdum", 7),
+            ("mudmud", 0)
+        )
+        tag_patterns = [t.regexp.pattern for t in tag.get_manager()]
+        self.assertListEqual(tag_patterns, ["mudmud", "dummy", "dumdum"])
+        
 class TestRegistration(unittest.TestCase):
 
     tags = [

@@ -59,6 +59,41 @@ class TagManager(object):
         for tag in self.tag_list:
             yield tag
 
+# TODO: Test me!
+# NOTE: Doesn't fit the register function.
+class PriorityTagManager(TagManager):
+    """
+    TagManager that keeps a priority value along its tags and yelds them
+    in that order.
+    """
+    def __init__(self):
+        super(PriorityTagManager, self).__init__()
+        self.tag_list = {}
+
+    def add(self, tag):
+        """
+        Register a new tag. 
+        tag should be a tupple (tag, priority). If not, priority will
+        defaut to 0.
+        """
+        try:
+            tag_obj, priority = tag
+        except ValueError:
+            tag_obj, priority = tag, 0
+        self.tag_list.setdefault(priority, []).append(tag_obj)
+        LOGGER.debug("Added %s to %s" % (tag, self))
+
+    def clear(self):
+        """ Clear the internal tag list. """
+        self.tag_list = {}
+        LOGGER.debug("%s has been cleared" % self)
+
+    def __iter__(self):
+        """ Yield contained tags. """
+        for i in sorted(self.tag_list.keys()):
+            for tag in self.tag_list[i]:
+                yield tag
+
 # "Global" manager instance.
 _manager = TagManager()
 
@@ -137,6 +172,7 @@ def set_manager(manager):
     LOGGER.info("New Tag manager: %s" % manager)
     _manager = manager
 
+# TODO: Move validation in Manager class.
 def register(*tag_list):
     """
     Register a sequence of tags.

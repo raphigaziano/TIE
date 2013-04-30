@@ -59,7 +59,8 @@ class TagManager(object):
         for tag in self.tag_list:
             yield tag
     
-    def _check_tag(self, tag):
+    @staticmethod
+    def _check_tag(tag):
         """
         Validate tha passed tag.
         Will convert a unicode string into a Tag Instance, and raise an

@@ -35,6 +35,21 @@ class TestTagManager(unittest.TestCase):
         tm = tag.get_manager()
         self.assertEqual(tm, tag._manager)
 
+class TestPriorityTagManager(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        tag.set_manager(tag.PriorityTagManager())
+    @classmethod
+    def tearDownClass(cls):
+        tag.set_manager(tag.TagManager())
+
+    def setUp(self): pass
+    def tearDown(self):
+        tag.get_manager().clear()
+
+    def test_dummy(self): self.fail("TODO")
+
 class TestRegistration(unittest.TestCase):
 
     tags = [

@@ -40,7 +40,7 @@ class TagManager(object):
         Register a new tag. 
         Override to accomodate a different internal data strucutre.
         """
-        self.tag_list.append(tag)
+        self.tag_list.append(self._check_tag(tag))
         LOGGER.debug("Added %s to %s" % (tag, self))
 
     def clear(self):
@@ -58,9 +58,24 @@ class TagManager(object):
         """
         for tag in self.tag_list:
             yield tag
+    
+    def _check_tag(self, tag):
+        """
+        Validate tha passed tag.
+        Will convert a unicode string into a Tag Instance, and raise an
+        InvalidTagError for any invalid type.
+        """
+        if isinstance(tag, utils.unicode):
+            return Tag(tag)
+        elif isinstance(tag, Tag):
+            return tag
+        else:
+            raise InvalidTagError(
+                    "Invalid tag %s of type %s" % (tag, type(tag))
+            )
+
 
 # TODO: Test me!
-# NOTE: Doesn't fit the register function.
 class PriorityTagManager(TagManager):
     """
     TagManager that keeps a priority value along its tags and yelds them
@@ -80,6 +95,7 @@ class PriorityTagManager(TagManager):
             tag_obj, priority = tag
         except ValueError:
             tag_obj, priority = tag, 0
+        tag_obj = self._check_tag(tag_obj)
         self.tag_list.setdefault(priority, []).append(tag_obj)
         LOGGER.debug("Added %s to %s" % (tag, self))
 
@@ -172,24 +188,13 @@ def set_manager(manager):
     LOGGER.info("New Tag manager: %s" % manager)
     _manager = manager
 
-# TODO: Move validation in Manager class.
 def register(*tag_list):
     """
     Register a sequence of tags.
     :param *tag_list: List of tags to be registered, as positional arguments.
-      Each tag can be either an already instanciated Tag object or a single
-      regular expression (as an unicode string). See Tag.__init__ for more
-      details on the construction of Tag objects.
     """
     manager = get_manager()
     for tag in tag_list:
-        if isinstance(tag, utils.unicode):
-            manager.add(Tag(tag))
-        elif isinstance(tag, Tag):
-            manager.add(tag)
-        else:
-            raise InvalidTagError(
-                    "Invalid tag %s of type %s" % (tag, type(tag))
-            )
+        manager.add(tag)
         LOGGER.info("Registered: %s" % tag)
 

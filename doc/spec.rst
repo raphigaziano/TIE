@@ -118,8 +118,23 @@ using re.sub: about 80 us per loop.
 
 using string.replace: about 49 us per loop.
 
+Known Issues:
+~~~~~~~~~~~~~
+
+(should be duplicated in README).
+
+- Test Failing with python 3.2:
+
+  test_tag.py  TestTag.def test_tag_regex_flags
+
+  Compiled regex objects seem to process their flags differently in py3.
+  instance's flags are always 32 higher than the equivalent tag combination
+  from the re module.
+
 Doc:
 ----
+
+Ressources to use as inspiration or help for tie.
 
 - pyratemp
   Nice, small tmpl lang:

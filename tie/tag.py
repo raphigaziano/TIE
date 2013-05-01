@@ -139,7 +139,7 @@ class Tag(object):
 
     def __repr__(self):
         """ Instance representation """
-        return "<Tag %s>" % self.regexp.pattern
+        return "<Tag %r>" % self.regexp.pattern
 
     def match(self, template):
         """

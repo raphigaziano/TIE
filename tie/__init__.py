@@ -18,7 +18,14 @@ Created: 18/04/2013
 from __future__ import unicode_literals
 
 import logging
-# from tie import ...
+
+### Submodules Imports ###
+
+from tie import tag, template
+from tie.tag import Tag, register
+from tie.template import Template
+# from tie.exceptions import *
+# TODO: Move all exceptions in their own exceptions.py module
 
 ### Logging Setup ###
 

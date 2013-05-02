@@ -17,10 +17,7 @@ a unicode string.
 import warnings
 
 from tie import utils
-
-class ContextWarning(RuntimeWarning):
-    """ Context variables Warning """
-    pass
+from tie.exceptions import ContextWarning
 
 def sub(match, **context):
     """

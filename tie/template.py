@@ -6,14 +6,11 @@ Template classes and utilities.
 """
 import logging
 
-from tie.utils import TIEError
 from tie import renderers
+from tie.exceptions import TemplateError
 
 LOGGER = logging.getLogger(__name__)
 
-class TemplateError(TIEError):
-    """ Template related Errors """
-    pass
 
 class Template(object):
     """

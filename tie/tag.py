@@ -12,15 +12,9 @@ import logging
 
 from tie import processors
 from tie import utils
+from tie.exceptions import InvalidTagError
 
 LOGGER = logging.getLogger(__name__)
-
-class TagError(utils.TIEError): 
-    """ Tag related Errors """
-    pass
-class InvalidTagError(TagError): 
-    """ Invalid value to register a Tag object """
-    pass
 
 class Tag(object):
     """
@@ -105,7 +99,7 @@ class TagManager(object):
         self.tag_list = []
 
     def add(self, tag):
-        """ Register a new tag.  """
+        """ Register a new tag. """
         self._add_tag(tag)
         LOGGER.debug("Added %s to %s" % (tag, self))
 
@@ -114,7 +108,7 @@ class TagManager(object):
         self.tag_list.append(self._check_tag(tag))
 
     def clear(self):
-        """ Clear the internal tag list.  """
+        """ Clear the internal tag list. """
         self._clear_tags()
         LOGGER.debug("%s has been cleared" % self)
 
@@ -148,7 +142,6 @@ class PriorityTagManager(TagManager):
     in that order.
     """
     def __init__(self):
-        super(PriorityTagManager, self).__init__()
         self.tag_list = {}
 
     def _add_tag(self, tag):

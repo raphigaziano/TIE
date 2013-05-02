@@ -24,8 +24,7 @@ import logging
 from tie import tag, template
 from tie.tag import Tag, register
 from tie.template import Template
-# from tie.exceptions import *
-# TODO: Move all exceptions in their own exceptions.py module
+from tie.exceptions import *
 
 ### Logging Setup ###
 

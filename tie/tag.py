@@ -22,91 +22,6 @@ class InvalidTagError(TagError):
     """ Invalid value to register a Tag object """
     pass
 
-class TagManager(object):
-    """
-    Tag Container.
-    Iterating over it will yield each contained tag in order of their 
-    insertion.
-
-    Tags are stored in a simple list. Eventual subclasses will need to
-    redefine their access and __next__ method if they decide to use another
-    data structure.
-    """
-    def __init__(self):
-        self.tag_list = []
-
-    def add(self, tag):
-        """
-        Register a new tag. 
-        Override to accomodate a different internal data strucutre.
-        """
-        self.tag_list.append(self._check_tag(tag))
-        LOGGER.debug("Added %s to %s" % (tag, self))
-
-    def clear(self):
-        """
-        Clear the internal tag list.
-        Override to accomodate a different internal data strucutre.
-        """
-        self.tag_list = []
-        LOGGER.debug("%s has been cleared" % self)
-
-    def __iter__(self):
-        """
-        Yield contained tags.
-        Override to accomodate a different internal data strucutre.
-        """
-        for tag in self.tag_list:
-            yield tag
-    
-    @staticmethod
-    def _check_tag(tag):
-        # TODO: rename & replace Tag by optionnal arg cls
-        """
-        Validate tha passed tag.
-        Will convert a string into a Tag Instance.
-        """
-        if not isinstance(tag, Tag):
-            return Tag(tag)
-        return tag
-
-class PriorityTagManager(TagManager):
-    """
-    TagManager that keeps a priority value along its tags and yields them
-    in that order.
-    """
-    def __init__(self):
-        super(PriorityTagManager, self).__init__()
-        self.tag_list = {}
-
-    def add(self, tag):
-        """
-        Register a new tag. 
-        tag should be a tupple (tag, priority). If not, priority will
-        default to 0.
-        """
-        try:
-            tag_obj, priority = tag
-        except TypeError:
-            tag_obj, priority = tag, 0
-        tag_obj = self._check_tag(tag_obj)
-        self.tag_list.setdefault(priority, []).append(tag_obj)
-        LOGGER.debug("Added %s to %s" % (tag, self))
-
-    def clear(self):
-        """ Clear the internal tag list. """
-        self.tag_list = {}
-        LOGGER.debug("%s has been cleared" % self)
-
-    def __iter__(self):
-        """ Yield contained tags. """
-        for i in sorted(self.tag_list.keys()):
-            for tag in self.tag_list[i]:
-                yield tag
-
-# "Global" manager instance.
-_manager = TagManager()
-
 class Tag(object):
     """
     Custom, user defined template tag.
@@ -172,6 +87,93 @@ class Tag(object):
             # out = re.sub(src_tag, val, out)
         LOGGER.debug("Found %i matches for %s" % (num_matches, self))
         return out
+
+### Managers ###
+################
+
+class TagManager(object):
+    """
+    Tag Container.
+    Iterating over it will yield each contained tag in order of their 
+    insertion.
+
+    Tags are stored in a simple list. Eventual subclasses will need to
+    redefine their access and __next__ method if they decide to use another
+    data structure.
+    """
+    def __init__(self):
+        self.tag_list = []
+
+    def add(self, tag):
+        """
+        Register a new tag. 
+        Override to accomodate a different internal data strucutre.
+        """
+        self.tag_list.append(self._check_tag(tag))
+        LOGGER.debug("Added %s to %s" % (tag, self))
+
+    def clear(self):
+        """
+        Clear the internal tag list.
+        Override to accomodate a different internal data strucutre.
+        """
+        self.tag_list = []
+        LOGGER.debug("%s has been cleared" % self)
+
+    def __iter__(self):
+        """
+        Yield contained tags.
+        Override to accomodate a different internal data strucutre.
+        """
+        for tag in self.tag_list:
+            yield tag
+    
+    @staticmethod
+    def _check_tag(tag, cls=Tag):
+        """
+        Validate tha passed tag.
+        Will convert a string into a Tag Instance.
+        """
+        if not isinstance(tag, cls):
+            return cls(tag)
+        return tag
+
+class PriorityTagManager(TagManager):
+    """
+    TagManager that keeps a priority value along its tags and yields them
+    in that order.
+    """
+    def __init__(self):
+        super(PriorityTagManager, self).__init__()
+        self.tag_list = {}
+
+    def add(self, tag):
+        """
+        Register a new tag. 
+        tag should be a tupple (tag, priority). If not, priority will
+        default to 0.
+        """
+        try:
+            tag_obj, priority = tag
+        except TypeError:
+            tag_obj, priority = tag, 0
+        tag_obj = self._check_tag(tag_obj)
+        self.tag_list.setdefault(priority, []).append(tag_obj)
+        LOGGER.debug("Added %s to %s" % (tag, self))
+
+    def clear(self):
+        """ Clear the internal tag list. """
+        self.tag_list = {}
+        LOGGER.debug("%s has been cleared" % self)
+
+    def __iter__(self):
+        """ Yield contained tags. """
+        for i in sorted(self.tag_list.keys()):
+            for tag in self.tag_list[i]:
+                yield tag
+
+# "Global" manager instance.
+_manager = TagManager()
 
 ### Module Level Utils ###
 ##########################

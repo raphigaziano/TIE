@@ -120,3 +120,10 @@ class TestRegistration(unittest.TestCase):
         """ Trying to register a invalid tag should raise an error """
         self.assertRaises(tag.InvalidTagError, tag.register, 666)
         # TODO: add moar bad input
+
+    def test_register_Tag_sublass(self):
+        """ Registering a Tag subclass """
+        class DummyTag(Tag): pass
+        t = DummyTag("dummy")
+        tag.register(t)
+        self.assertTrue(isinstance(tag.get_manager().tag_list[0], DummyTag))

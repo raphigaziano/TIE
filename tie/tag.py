@@ -55,7 +55,7 @@ class Tag(object):
 
     def __repr__(self):
         """ Instance representation """
-        return "<Tag %r>" % self.regexp.pattern
+        return "<%s %r>" % (self.__class__.__name__, self.regexp.pattern)
 
     def match(self, template):
         """

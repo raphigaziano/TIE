@@ -61,19 +61,14 @@ class TagManager(object):
     
     @staticmethod
     def _check_tag(tag):
+        # TODO: rename & replace Tag by optionnal arg cls
         """
         Validate tha passed tag.
-        Will convert a unicode string into a Tag Instance, and raise an
-        InvalidTagError for any invalid type.
+        Will convert a string into a Tag Instance.
         """
-        if isinstance(tag, utils.unicode):
+        if not isinstance(tag, Tag):
             return Tag(tag)
-        elif isinstance(tag, Tag):
-            return tag
-        else:
-            raise InvalidTagError(
-                    "Invalid tag %s of type %s" % (tag, type(tag))
-            )
+        return tag
 
 class PriorityTagManager(TagManager):
     """
@@ -134,7 +129,13 @@ class Tag(object):
           Pass them just as you would when using the re.compile function.
         :param processor: Tag processing callback. Defaults to processors.sub.
         """
-        self.regexp = re.compile(pattern, flags=flags)
+        try:
+            self.regexp = re.compile(pattern, flags=flags)
+        except TypeError:
+            raise InvalidTagError(
+                    "Invalid tag pattern %s of type %s" % 
+                    (pattern, type(pattern))
+            )
         self.processor = processor
 
     def __repr__(self):

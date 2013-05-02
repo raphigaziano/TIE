@@ -131,8 +131,10 @@ class TagManager(object):
     @staticmethod
     def _check_tag(tag, cls=Tag):
         """
-        Validate tha passed tag.
-        Will convert a string into a Tag Instance.
+        Instances of cls (or a subclass of it) will be returned unchanged.
+        Any other type will be sent to cls' constructor, which is responsible
+        for type checking.
+        cls defaults to Tag.
         """
         if not isinstance(tag, cls):
             return cls(tag)

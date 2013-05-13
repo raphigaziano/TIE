@@ -38,8 +38,6 @@ class TestTemplate(unittest.TestCase):
         t = Template("mudmud", renderer=dummy_renderer)
         self.assertEqual(dummy_renderer, t.renderer)
 
-FileTemplate = template.FileTemplate
-
 class TestFileTemplate(unittest.TestCase):
 
     tmplpath = os.path.join(os.path.dirname(__file__), "testtemplate.txt")
@@ -53,9 +51,10 @@ class TestFileTemplate(unittest.TestCase):
 
     def test_filetemplate_instanciation(self):
         """ FileTemplate instanciation from file path """
-        t = FileTemplate(self.tmplpath)
+        t = Template.from_file(self.tmplpath)
+        # t = FileTemplate(self.tmplpath)
         self.assertEqual(t.template, self.tmpl)
 
     def test_filetemplate_instanciation_invalid_path(self):
         """ FileTemplate instanciation should fail if given an non-existent path """
-        self.assertRaises(IOError, FileTemplate, "dummy")
+        self.assertRaises(IOError, Template.from_file, "dummy")

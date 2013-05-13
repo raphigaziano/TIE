@@ -45,20 +45,15 @@ class Template(object):
         LOGGER.debug("Context vars: %s" % context)
         return self.renderer(self, **context)
 
-class FileTemplate(Template):
-    """ File based Template object """
-    def __init__(self, tmpl_path, *args, **kwargs):
-        """ 
-        Class initializer.
+    @classmethod
+    def from_file(cls, tmpl_path, *args, **kwargs):
+        """
+        Alternative constructor -> Creates a template from a file.
         :param tmpl_path: Path to the template file.
         :param renderer: Rendering callback. 
           Defaults to renderers.default_renderer.
         """
         with open(tmpl_path, 'r') as tmpl_f:
             template_string = tmpl_f.read()
-        super(FileTemplate, self).__init__(
-            template_string,
-            *args,
-            **kwargs
-        )
-
+        return cls(template_string, *args, **kwargs)
+        

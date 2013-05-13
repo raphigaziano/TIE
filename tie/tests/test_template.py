@@ -52,7 +52,6 @@ class TestFileTemplate(unittest.TestCase):
     def test_filetemplate_instanciation(self):
         """ FileTemplate instanciation from file path """
         t = Template.from_file(self.tmplpath)
-        # t = FileTemplate(self.tmplpath)
         self.assertEqual(t.template, self.tmpl)
 
     def test_filetemplate_instanciation_invalid_path(self):

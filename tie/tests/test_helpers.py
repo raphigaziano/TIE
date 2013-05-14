@@ -27,7 +27,7 @@ class TestRegexHelpers(unittest.TestCase):
         """ get_single_group with several groups defined """
         m = re.search("% (\w+) (\w+) %", "dumdummy % test foo % mudmud")
         self.assertEqual("test", helpers.get_single_group(m, 1))
-        self.assertEqual("foo", helpers.get_single_group(m, 2))
+        self.assertEqual("foo",  helpers.get_single_group(m, 2))
 
     def test_get_single_group_several_groups_no_key(self):
         """ get_single_group should default to the first group if several are defined """
@@ -40,6 +40,6 @@ class TestRegexHelpers(unittest.TestCase):
                       "dumdummy % test val % mudmud")
         self.assertEqual("test", helpers.get_single_group(m, "tag"))
         self.assertEqual("test", helpers.get_single_group(m))
-        self.assertEqual("val", helpers.get_single_group(m, "val"))
-        self.assertEqual("val", helpers.get_single_group(m, 2))
+        self.assertEqual("val",  helpers.get_single_group(m, "val"))
+        self.assertEqual("val",  helpers.get_single_group(m, 2))
 

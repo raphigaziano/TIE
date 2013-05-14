@@ -16,7 +16,7 @@ a unicode string.
 """
 import warnings
 
-from tie import utils
+from tie import utils, helpers
 from tie.exceptions import ContextWarning
 
 def sub(match, **context):
@@ -24,7 +24,7 @@ def sub(match, **context):
     Default Ttag processor.
     Returns the appropriate value from **context for a matched tag.
     """
-    tag = match.group(1) if match.groups() else match.group(0)
+    tag = helpers.get_single_group(match)
     val = utils.unicode(context.get(tag, "")) # TODO: Error check
     if not val and tag not in context.keys():
         warnings.warn(

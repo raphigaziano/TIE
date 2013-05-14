@@ -35,10 +35,10 @@ class TestTIE(unittest.TestCase):
         tag.register(r"{{ (\w+) }}")
         tag.register(tag.Tag(r"{{ include (\w.+) }}", processor=include_tag))
         t = template.Template.from_file(self.tmplpath)
-        rt = t(title="TIE Is Evil", name="Raphi", age=26)
+        rt = t(title="TIE Is Evil", name="Bobby", age=32)
         self.assertEqual("Contents of file testinclude.txt\n"
                          "TIE Is Evil\n"
-                         "Hello, my name is Raphi\n"
-                         "I'm 26 years old and my name is Raphi !",
+                         "Hello, my name is Bobby\n"
+                         "I'm 32 years old and my name is Bobby !",
                          rt)
 

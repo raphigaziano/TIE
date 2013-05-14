@@ -99,21 +99,17 @@ class TagManager(object):
         self.tag_list = []
 
     def add(self, tag):
-        """ Register a new tag. """
-        self._add_tag(tag)
-        LOGGER.debug("Added %s to %s" % (tag, self))
-
-    def _add_tag(self, tag):
-        """ Override to accomodate a different internal data strucutre. """
+        """
+        Register a new tag.
+        Override to accomodate a different internal data strucutre.
+        """
         self.tag_list.append(self._check_tag(tag))
 
     def clear(self):
-        """ Clear the internal tag list. """
-        self._clear_tags()
-        LOGGER.debug("%s has been cleared" % self)
-
-    def _clear_tags(self):
-        """ Override to accomodate a different internal data strucutre. """
+        """
+        Clear the internal tag list.
+        Override to accomodate a different internal data strucutre.
+        """
         self.tag_list = []
 
     def __iter__(self):
@@ -144,7 +140,7 @@ class PriorityTagManager(TagManager):
     def __init__(self):
         self.tag_list = {}
 
-    def _add_tag(self, tag):
+    def add(self, tag):
         """
         Register a new tag. 
         tag should be a tupple (tag, priority). If not, priority will
@@ -157,7 +153,7 @@ class PriorityTagManager(TagManager):
         tag_obj = self._check_tag(tag_obj)
         self.tag_list.setdefault(priority, []).append(tag_obj)
 
-    def _clear_tags(self):
+    def clear(self):
         """ Clear the internal tag list. """
         self.tag_list = {}
 

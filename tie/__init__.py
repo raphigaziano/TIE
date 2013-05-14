@@ -22,7 +22,7 @@ import logging
 ### Submodules Imports ###
 
 from tie import tag, template
-from tie.tag import Tag, register
+from tie.tag import Tag
 from tie.template import Template
 from tie.exceptions import *
 

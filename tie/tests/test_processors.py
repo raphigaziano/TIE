@@ -56,8 +56,7 @@ class TestProcessorSub(unittest.TestCase):
             match = re.search("% (?P<tag>\w+) %", "I am % dummy %, yay")
             res = processors.sub(match)
             self.assertEqual(1, len(w))
-            self.assertTrue(issubclass(w[-1].category, 
-                                       processors.ContextWarning))
+            self.assertEqual(w[-1].category, processors.ContextWarning)
 
 
 

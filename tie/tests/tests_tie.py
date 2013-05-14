@@ -19,7 +19,6 @@ class TestTIE(unittest.TestCase):
         """ Basic rendering of a file template """
         tag.register(r"{{ (\w+) }}")
         t = template.Template.from_file(self.tmplpath)
-        self.assertEqual(t.template, open(self.tmplpath).read())
         rt = t(title="TIE Is Evil", name="Raphi", age=26)
         self.assertEqual("{{ include testinclude.txt }}\n"
                          "TIE Is Evil\n"

@@ -11,9 +11,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   introduction <intro>
-   tutorial/first-steps
-   tutorial/mini-web
+   Introduction <intro>
+   tutorials/index
+   howtos/index
    api/index
 
 

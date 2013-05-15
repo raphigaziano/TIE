@@ -11,6 +11,10 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   introduction <intro>
+   tutorial/first-steps
+   tutorial/mini-web
+   api/index
 
 
 Indices and tables
@@ -20,3 +24,4 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+.. todolist::

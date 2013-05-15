@@ -19,6 +19,13 @@ import sys, os
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
 
+TIE_ROOT = os.path.abspath(os.path.join(
+    os.path.dirname(__file__),
+    '..',
+    '..')
+)
+sys.path.insert(0, TIE_ROOT)
+
 # -- General configuration -----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -247,3 +254,6 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+# ext.todo configuration.
+todo_include_todos = True

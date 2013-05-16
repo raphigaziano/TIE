@@ -56,6 +56,8 @@ Getting Started
    - pip install command
    - cloning instructions
 
+.. _intro-overview:
+
 Overview
 --------
 
@@ -80,6 +82,9 @@ A naive exemple could look like this:
 >>> res = my_template(name="raphi")
 >>> print(res)
 Hello, raphi!
+>>> res = my_template(name="Darth Vader, lord of the sith")
+>>> print(res)
+Hello, Darth Vader, lord of the sith!
 
 .. note::
 
@@ -93,6 +98,3 @@ the basic process it illustrates should be able to handle a lot of common
 situations.
 
 Head on to the :doc:`TIE tutorial <tutorial>` to start using TIE the right way !
-
-.. todo::
-   - link to tuts

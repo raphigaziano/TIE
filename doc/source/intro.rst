@@ -74,7 +74,7 @@ A naive exemple could look like this:
    from __future__ import print_function
 
 >>> import tie
->>> # Register a tag
+>>> # Register a tag pattern
 >>> tie.tag.register("name")
 >>> # Instanciate a Template object
 >>> my_template = tie.Template("Hello, name!")

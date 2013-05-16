@@ -92,8 +92,7 @@ While this exemple is way too simple to be useful,
 the basic process it illustrates should be able to handle a lot of common 
 situations.
 
-Head on to the ``first part of the TIE tutorial``
-to start using TIE "the right way" !
+Head on to the :doc:`TIE tutorial <tutorial>` to start using TIE the right way !
 
 .. todo::
    - link to tuts

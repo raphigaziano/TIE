@@ -29,7 +29,7 @@ User Guide
    :maxdepth: 2
 
    intro
-   tutorials/index
+   tutorial
    howtos/index
 
 API Reference

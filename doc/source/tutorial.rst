@@ -35,16 +35,16 @@ Indeed, consider what would happen if you used another template string:
 
    tie.tag.get_manager().clear()
 
-Your ``name`` tag matched *all* occurences of the word "tag" in your template,
+Your ``name`` tag matched *all* occurences of the word "name" in your template,
 which is probably *not* what you wanted!
 
 And, let's face it, this was to be expected. ``name`` is an awfull tag pattern -
-In order for TIE to detect your placeholders more inteligently, they need to
+In order for TIE to detect your placeholders more intelligently, they need to
 contain some specific tokens that will help differentiate them from regular
 words.
 In order to be more flexible, TIE requires you to include those tokens in your
-patterns - But this also means that you should think carefully about them to
-avoid that kind of confusion.
+patterns yourself - But this also means that you should think carefully about
+them to avoid that kind of confusion.
 
 Let's decide that our tags should be surrounded by '%' characters to be detected.
 
@@ -62,7 +62,7 @@ Let's decide that our tags should be surrounded by '%' characters to be detected
     'Hello, my name is !'
 
 Well shoot. Our tag apparently matched but it got replaced with a blank string 
-instead of our sent data!
+instead of our custom data!
 
 This is because when you call your :py:class:`Template <tie.template.Template>` 
 object to render it, it receives your arguments as a dictionnary 
@@ -75,7 +75,7 @@ If it can't find it, it raises a warning and returns a blank string.
 
    The behaviour described above might change in future versions.
 
-This means that in our case, our ``name`` argument and our ``%name%`` don't
+This means that in our case, our ``name`` argument and our ``%name%`` tag don't
 match, which explains why the above code didn't work.
 
 But... ``%name%`` is not a valid python identifier, is it ?
@@ -100,14 +100,14 @@ Don't worry. We just need to improve our tag just a little more.
 .. note::
 
    Experienced Python users might be thinking of building the arguments 
-   directory themselves and sending it with the splat operator, like this:
+   dictionary themselves and sending it with the splat operator, like this:
 
    ::
 
       my_template(**{"%name%": "raphi"}) # **Don't do this!**
 
    This will work, but is ugly as hell.
-   Experienced Python users shouldn't have to write such ugly code.
+   Experienced or not, Python users shouldn't have to write such ugly code.
 
 Regular expressions to the rescue !
 +++++++++++++++++++++++++++++++++++

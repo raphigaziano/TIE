@@ -93,7 +93,7 @@ Nope, it isn't.
 
 So, we need to define special tokens to identify our template tags,
 but we can't use non-alphanumerical characters besides the underscore ?
-Well, this sucks. And talk about "flexibility".
+Well, this sucks. And I thought this library claimed to be "flexible" ?
 
 Don't worry. We just need to improve our tag just a little more.
 
@@ -111,6 +111,32 @@ Don't worry. We just need to improve our tag just a little more.
 
 Regular expressions to the rescue !
 +++++++++++++++++++++++++++++++++++
+
+If you've never heard of regular expression, then things might start to get
+a bit hairy.
+I'll try to explain how the first few ones we'll use in this tutorial work,
+but you'll need to learn more about them to use TIE efficiently.
+I suggest reading this `howto <http://docs.python.org/2/howto/regex.html>`_
+from the python's documentation to get started.
+Also, while you shouldn't need to use it directly, reading the standard library's
+:py:mod:`re` module's reference might help you as well.
+.. :ref:`re <python>` module's reference might help you as well.
+
+.. note::
+
+   It's possible to use the :mod:`re` module's flags in your tags' regexes.
+   To do so, you'll have to instanciate your Tag objects explicitely and pass
+   them to the register function, instead of simply passing the regex string,
+   like so:
+
+   ::
+
+      import re
+      import tie
+
+      tie.tag.register(
+         tie.Tag("^my_awesome_regex$", flags=re.FOO | re.BAR)
+      )
 
 More generic tags
 +++++++++++++++++

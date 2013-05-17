@@ -36,7 +36,8 @@ sys.path.insert(0, TIE_ROOT)
 extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'sphinx.ext.doctest'
+    'sphinx.ext.doctest',
+    'sphinx.ext.intersphinx'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -261,3 +262,8 @@ texinfo_documents = [
 
 # ext.todo configuration.
 todo_include_todos = True
+
+# intersphinx configuration
+intersphinx_mapping = {'python': ('http://docs.python.org/2.7',
+                                  None)}
+

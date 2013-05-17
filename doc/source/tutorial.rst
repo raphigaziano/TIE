@@ -126,8 +126,10 @@ Also, while you shouldn't need to use it directly, reading the standard library'
 .. note::
 
    It's possible to use the :mod:`re` module's flags in your tags' regexes.
-   To do so, you'll have to instanciate your Tag objects explicitely and pass
-   them to the :func:`register <tie.tag.register>` 
+   To do so, you'll have to instanciate your
+   :class:`Tag <tie.tag.Tag>` 
+   objects explicitely and pass them to the 
+   :func:`register <tie.tag.register>` 
    function, instead of simply passing the regex string, like so:
 
    ::

@@ -35,10 +35,10 @@ Indeed, consider what would happen if you used another template string:
 
    tie.tag.get_manager().clear()
 
-Your ``name`` tag matched *all* occurences of the word "name" in your template,
+Your `name` tag matched *all* occurences of the word "name" in your template,
 which is probably *not* what you wanted!
 
-And, let's face it, this was to be expected. ``name`` is an awfull tag pattern -
+And, let's face it, this was to be expected. `name` is an awfull tag pattern -
 In order for TIE to detect your placeholders more intelligently, they need to
 contain some specific tokens that will help differentiate them from regular
 words.
@@ -75,10 +75,10 @@ If it can't find it, it raises a warning and returns a blank string.
 
    The behaviour described above might change in future versions.
 
-This means that in our case, our ``name`` argument and our ``%name%`` tag don't
+This means that in our case, our ``name`` argument and our `%name%` tag don't
 match, which explains why the above code didn't work.
 
-But... ``%name%`` is not a valid python identifier, is it ?
+But... `%name%` is not a valid python identifier, is it ?
 
 .. doctest:: naive-tokens
 
@@ -121,7 +121,45 @@ from the python's documentation to get started.
 Also, while you shouldn't need to use it directly, reading the standard library's
 :mod:`re` module's reference might help you as well.
 
+One of the neat things about regular expressions is that they allow you to
+capture specific parts, or "groups", of the matching string.
+If you define one such group in your pattern, TIE will try to match your context 
+variables against it, instead of using the whole tag.
 
+The simplest way to define a group is simply to surround in with parenthesis.
+(You can also use another syntax to assign names to your groups. While this can
+come in handy, there's no real need to do so in our situation, so we'll settle
+for an anonymous group for the sake of readability.)
+
+Let's try this:
+
+.. testsetup:: simple-regex
+
+   from __future__ import print_function
+   import tie
+   tie.tag.get_manager().clear()
+
+.. doctest:: simple-regex
+
+   >>> tie.tag.register("%(name)%")
+   >>> my_template = tie.Template("Hello, my name is %name%!")
+   >>> my_template(name="raphi")
+   'Hello, my name is raphi!'
+
+Hurrah! This lib might not be so useless after all!
+
+While you can get more fancy, this is really all you have to understand to
+start using TIE. 
+As long as you include appropriate tokens [#f1]_ in your patterns, 
+and remember to define a group that can match the variables names you'll be
+using in your code, 
+you're ready to start defining a simple template language using arbitrary tags.
+
+But, as far as regular expressions go, `%(name)%` is about as simple as it gets.
+If you've ever used regexes, then you know than they can be far more powerful
+(and far less readable ;)) than this.
+
+Let's see if we can tweak our tag further...
 
 .. note::
 
@@ -141,8 +179,20 @@ Also, while you shouldn't need to use it directly, reading the standard library'
          tie.Tag("^my_awesome_regex$", flags=re.FOO | re.BAR)
       )
 
+.. [#f1] What's an appropriate token? Well, it all depends on the context in
+         which you plan to use your template tags. If generating html documents,
+         surrounding your tags with angle brackets (`<>`) might not be the best 
+         idea...
+
+         Just take some time to think about it and use some common sense.
+         Typical patterns could like the ones we're defining in this tutorial
+         (`%my_tag%`), or like the ones used by the django and Jinja2 template
+         engines (`{{ my_tag }}`).
+
 More generic tags
 +++++++++++++++++
 
 Part II - Using external template files
 ---------------------------------------
+
+

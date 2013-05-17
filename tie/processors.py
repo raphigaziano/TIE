@@ -28,7 +28,7 @@ def sub(match, **context):
     tag = helpers.get_single_group(match)
     if re.search(r"\[.+\]|\.", tag):
         # Attribute/Indice lookup
-        val = utils.unicode(eval(tag, None, context))
+        val = utils.unicode(eval(tag, {"__builtins__": None}, context))
     else:
         # Straight value
         val = utils.unicode(context.get(tag, "")) # TODO: Error check

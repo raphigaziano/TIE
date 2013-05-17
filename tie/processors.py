@@ -26,7 +26,7 @@ def sub(match, **context):
     Returns the appropriate value from **context for a matched tag.
     """
     tag = helpers.get_single_group(match)
-    if re.search("\[.+\]|\.", tag):
+    if re.search(r"\[.+\]|\.", tag):
         # Attribute/Indice lookup
         val = utils.unicode(eval(tag, None, context))
     else:

@@ -222,9 +222,9 @@ we might send it ? Get rid of the `%name%` and `%age%` tags and instead, have
 some kind of generic `%<var>%` tag that would match whatever context argument 
 happened to be referenced between those two percent signs ?
 
-Remember. While the ones we've used so for didn't look like much, our tag
-patterns are still regular expressions. Knowing this, the solution becomes 
-trivial:
+Remember. While the ones we've used so far didn't look like much, our tag
+patterns are still regular expressions. Knowing this, and assuming you've
+read up a bit on those, the solution becomes trivial:
 
 .. testsetup:: generic-regex
 
@@ -243,5 +243,7 @@ popopo
 
 Part II - Using external template files
 ---------------------------------------
+
+Coming soon!
 
 

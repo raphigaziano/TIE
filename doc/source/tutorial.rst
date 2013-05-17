@@ -185,12 +185,61 @@ Let's see if we can tweak our tag further...
          idea...
 
          Just take some time to think about it and use some common sense.
-         Typical patterns could like the ones we're defining in this tutorial
-         (`%my_tag%`), or like the ones used by the django and Jinja2 template
-         engines (`{{ my_tag }}`).
+         Typical patterns could look like the ones we're defining in this
+         tutorial (`%my_tag%`), or like the ones used by the django and Jinja2
+         template engines (`{{ my_tag }}`).
 
 More generic tags
 +++++++++++++++++
+
+So, now that we know how to define better template tags, let's register 
+another one:
+
+.. doctest:: simple-regex
+
+   >>> tie.tag.register(    # Notice that you can pass an arbitrary number
+   ...     "%(name)%",      # of patterns to register them all at once
+   ...     "%(age)%"
+   ... )
+   >>> my_template = tie.Template("Hello, my name is %name% and I'm %age% years old!")
+   >>> my_template(name="raphi", age=26)
+   "Hello, my name is raphi and I'm 26 years old!"
+   
+Yup, still works. And as a bonus, you might have noticed that we passed the
+``age`` argument as an integer value, and not as a string.
+TIE is just smart enough to call the ``__str__`` method of the objects it's 
+asked to process in order to display them. 
+Keep that in mind if you plan on sending custom objects to your templates.
+
+We still have to register a new pattern for every tag we want to support.
+This is perfectly fine if you want to allow only a limited set of template
+tags - sometimes you need tight control over what can or can't go in your 
+templates, and explicitely defining each tag in this way will help you manage
+what's going on.
+
+But still, wouldn't it be nice if we could let TIE match any arbitrary argument
+we might send it ? Get rid of the `%name%` and `%age%` tags and instead, have
+some kind of generic `%<var>%` tag that would match whatever context argument 
+happened to be referenced between those two percent signs ?
+
+Remember. While the ones we've used so for didn't look like much, our tag
+patterns are still regular expressions. Knowing this, the solution becomes 
+trivial:
+
+.. testsetup:: generic-regex
+
+   from __future__ import print_function
+   import tie
+   tie.tag.get_manager().clear()
+
+.. doctest:: generic-regex
+
+   >>> tie.tag.register("%(\w+)%")
+   >>> my_template = tie.Template("Hello, my name is %name% and I'm %age% years old!")
+   >>> my_template(name="raphi", age=26)
+   "Hello, my name is raphi and I'm 26 years old!"
+   
+popopo
 
 Part II - Using external template files
 ---------------------------------------

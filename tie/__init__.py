@@ -17,7 +17,11 @@ Created: 18/04/2013
 """
 from __future__ import unicode_literals
 
-import logging
+__title__     = "TIE"
+__version__   = '0.0.1'
+__author__    = "Raphi Gaziano"
+__licence__   = "WTFPL 2"
+__copyright__ = "Copyright 2013 Raphi Gaziano"
 
 ### Submodules Imports ###
 
@@ -28,17 +32,17 @@ from tie.exceptions import *
 
 ### Logging Setup ###
 
+import logging
 # For py26 compat, create a NullHandler
 if hasattr(logging, 'NullHandler'):
     NullHandler = logging.NullHandler
 else:
     class NullHandler(logging.Handler):
+        """ No-op handler """
         def handle(self, record):
             pass
-
         def emit(self, record):
             pass
-
         def createLock(self):
             self.lock = None
 

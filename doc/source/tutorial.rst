@@ -120,7 +120,6 @@ I suggest reading this `howto <http://docs.python.org/2/howto/regex.html>`_
 from the python's documentation to get started.
 Also, while you shouldn't need to use it directly, reading the standard library's
 :py:mod:`re` module's reference might help you as well.
-.. :ref:`re <python>` module's reference might help you as well.
 
 .. note::
 

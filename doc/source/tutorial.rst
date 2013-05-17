@@ -64,7 +64,7 @@ Let's decide that our tags should be surrounded by '%' characters to be detected
 Well shoot. Our tag apparently matched but it got replaced with a blank string 
 instead of our custom data!
 
-This is because when you call your :py:class:`Template <tie.template.Template>` 
+This is because when you call your :class:`Template <tie.template.Template>` 
 object to render it, it receives your arguments as a dictionnary 
 (this is the normal python behaviour for keyword arguments).
 TIE's default behaviour is then to replace each detected tag with a matching
@@ -112,21 +112,23 @@ Don't worry. We just need to improve our tag just a little more.
 Regular expressions to the rescue !
 +++++++++++++++++++++++++++++++++++
 
-If you've never heard of regular expression, then things might start to get
+If you've never heard of regular expressions, then things might start to get
 a bit hairy.
 I'll try to explain how the first few ones we'll use in this tutorial work,
 but you'll need to learn more about them to use TIE efficiently.
 I suggest reading this `howto <http://docs.python.org/2/howto/regex.html>`_
 from the python's documentation to get started.
 Also, while you shouldn't need to use it directly, reading the standard library's
-:py:mod:`re` module's reference might help you as well.
+:mod:`re` module's reference might help you as well.
+
+
 
 .. note::
 
    It's possible to use the :mod:`re` module's flags in your tags' regexes.
    To do so, you'll have to instanciate your Tag objects explicitely and pass
-   them to the register function, instead of simply passing the regex string,
-   like so:
+   them to the :func:`register <tie.tag.register>` 
+   function, instead of simply passing the regex string, like so:
 
    ::
 

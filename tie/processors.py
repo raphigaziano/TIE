@@ -14,6 +14,7 @@ __call__ method) and must accept the following arguments:
 After any processing is done, they should return the value to be injected as
 a unicode string.
 """
+import re
 import warnings
 
 from tie import utils, helpers
@@ -25,7 +26,12 @@ def sub(match, **context):
     Returns the appropriate value from **context for a matched tag.
     """
     tag = helpers.get_single_group(match)
-    val = utils.unicode(context.get(tag, "")) # TODO: Error check
+    if re.search("\[.+\]|\.", tag):
+        # Attribute/Indice lookup
+        val = utils.unicode(eval(tag, None, context))
+    else:
+        # Straight value
+        val = utils.unicode(context.get(tag, "")) # TODO: Error check
     if not val and tag not in context.keys():
         warnings.warn(
             "No context variable matched the tag %s" % tag,

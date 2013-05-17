@@ -58,5 +58,57 @@ class TestProcessorSub(unittest.TestCase):
             self.assertEqual(1, len(w))
             self.assertEqual(w[-1].category, processors.ContextWarning)
 
+class TestProcessorSubAttrLookup(unittest.TestCase):
 
+    def setUp(self): pass
+    def tearDown(self): pass
+
+    l = [1, 2, 3]
+    d = {"a": 1, "b": 2, "c": 3}
+    o = type("Dummy", (), d)
+
+    def test_attribute_lookup_list(self):
+        """ Attribute lookup - list index """
+        match = re.search("%(.+)%", "my item: %l[0]%")
+        res = processors.sub(match, l=self.l)
+        self.assertEqual('1', res)
+        match = re.search("%(.+)%", "my item: %l[1]%")
+        res = processors.sub(match, l=self.l)
+        self.assertEqual('2', res)
+        match = re.search("%(.+)%", "my item: %l[2]%")
+        res = processors.sub(match, l=self.l)
+        self.assertEqual('3', res)
+
+    def test_attribute_lookup_dict(self):
+        """ Attribute lookup - dictionnary key """
+        match = re.search("%(.+)%", "my item: %d['a']%")
+        res = processors.sub(match, d=self.d)
+        self.assertEqual('1', res)
+        match = re.search("%(.+)%", "my item: %d['b']%")
+        res = processors.sub(match, d=self.d)
+        self.assertEqual('2', res)
+        match = re.search("%(.+)%", "my item: %d['c']%")
+        res = processors.sub(match, d=self.d)
+        self.assertEqual('3', res)
+
+    def test_attribute_lookup_obejct(self):
+        """ Attribute lookup - object attribute """
+        match = re.search("%(.+)%", "my item: %o.a%")
+        res = processors.sub(match, o=self.o)
+        self.assertEqual('1', res)
+        match = re.search("%(.+)%", "my item: %o.b%")
+        res = processors.sub(match, o=self.o)
+        self.assertEqual('2', res)
+        match = re.search("%(.+)%", "my item: %o.c%")
+        res = processors.sub(match, o=self.o)
+        self.assertEqual('3', res)
+
+    def test_attribute_lookup_errors(self):
+        """ Attribute lookup - Errors """
+        match = re.search("%(.+)%", "my item: %l[3]%")
+        self.assertRaises(IndexError, processors.sub, match, **{'l':self.l})
+        match = re.search("%(.+)%", "my item: %d['d']%")
+        self.assertRaises(KeyError, processors.sub, match, **{'d':self.d})
+        match = re.search("%(.+)%", "my item: %o.d%")
+        self.assertRaises(AttributeError, processors.sub, match, **{'o':self.o})
 

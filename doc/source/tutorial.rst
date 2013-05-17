@@ -84,7 +84,7 @@ But... ``%name%`` is not a valid python identifier, is it ?
 
    >>> my_template(%name%="raphi")
    Traceback (most recent call last):
-   ...
+       ...
        my_template(%name%="raphi")
                     ^
    SyntaxError: invalid syntax

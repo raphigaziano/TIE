@@ -156,7 +156,7 @@ using in your code,
 you're ready to start defining a simple template language using arbitrary tags.
 
 But, as far as regular expressions go, `%(name)%` is about as simple as it gets.
-If you've ever used regexes, then you know than they can be far more powerful
+If you've ever used regexes, then you know that they can be far more powerful
 (and far less readable ;)) than this.
 
 Let's see if we can tweak our tag further...

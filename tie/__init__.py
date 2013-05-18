@@ -38,14 +38,15 @@ try: # Python 2.7+
     from logging import NullHandler
 except ImportError:
     class NullHandler(logging.Handler):
+        """ Do nothing handler """
         def emit(self, record):
             pass
 
 logging.getLogger('tie').addHandler(NullHandler())
 
 # TEMP
-# stream_handler = logging.StreamHandler(
-# fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s
-# stream_handler.setFormatter(logging.Formatter(fmt)
-# logging.getLogger('tie').addHandler(stream_handler
-# logging.getLogger('tie').setLevel(logging.DEBUG
+# stream_handler = logging.StreamHandler()
+# fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+# stream_handler.setFormatter(logging.Formatter(fmt))
+# logging.getLogger('tie').addHandler(stream_handler)
+# logging.getLogger('tie').setLevel(logging.DEBUG)

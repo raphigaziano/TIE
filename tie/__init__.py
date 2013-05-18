@@ -33,23 +33,19 @@ from tie.exceptions import *
 ### Logging Setup ###
 
 import logging
-# For py26 compat, create a NullHandler
-if hasattr(logging, 'NullHandler'):
-    NullHandler = logging.NullHandler
-else:
+
+try: # Python 2.7+
+    from logging import NullHandler
+except ImportError:
     class NullHandler(logging.Handler):
-        """ No-op handler """
-        def handle(self, record):
-            pass
         def emit(self, record):
             pass
-        def createLock(self):
-            self.lock = None
 
 logging.getLogger('tie').addHandler(NullHandler())
-# TEMPO
-# stream_handler = logging.StreamHandler()
-# fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-# stream_handler.setFormatter(logging.Formatter(fmt))
-# logging.getLogger('tie').addHandler(stream_handler)
-# logging.getLogger('tie').setLevel(logging.DEBUG)
+
+# TEMP
+# stream_handler = logging.StreamHandler(
+# fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s
+# stream_handler.setFormatter(logging.Formatter(fmt)
+# logging.getLogger('tie').addHandler(stream_handler
+# logging.getLogger('tie').setLevel(logging.DEBUG

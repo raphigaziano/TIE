@@ -263,9 +263,9 @@ Using external template files
 +++++++++++++++++++++++++++++
 
 Fire up your favourite editor and start designing a simple template.
-I'll use a pretty minimal one, and save it as `test_template.txt`.
+I'll use a pretty minimal one, and save it as `test_template.txt`:
 
-.. include:: ../exemples/test_template.txt
+.. include:: exemples/test_template.txt
    :code:
 
 Blaaa...

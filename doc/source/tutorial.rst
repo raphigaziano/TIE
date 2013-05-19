@@ -7,7 +7,7 @@ Tutorial
    :local:
    :backlinks: top
 
-Part I  - Simple substitution tags
+Part I   - Simple substitution tags
 ----------------------------------
 
 The naive way's shortcomings
@@ -239,11 +239,25 @@ read up a bit on those, the solution becomes trivial:
    >>> my_template(name="raphi", age=26)
    "Hello, my name is raphi and I'm 26 years old!"
    
-popopo
+.. todo:: explain regex a bit + short conclusion
 
-Part II - Using external template files
----------------------------------------
+Part II  - Managing your templates
+---------------------------------
 
 Coming soon!
 
+Using external template files
++++++++++++++++++++++++++++++
 
+Register your templates to a manager
+++++++++++++++++++++++++++++++++++++
+
+Since template manager are a nice, but rather optional feature, they haven't
+been implemented yet.
+
+I do plan to add the soon, so check back in a while for them!
+
+Part III - Custom Tag behaviour
+-------------------------------
+
+Coming soon!

@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
-""" Helper functions for the TIE library """
+"""
+Helper functions for the TIE library.
+
+These functions will be exposed to the user and documented. For strictly
+internal helpers, see utils.py.
+
+Regex helpers will provide shortcuts for some common regular expression 
+handling.
+"""
 
 ### REGEX Helpers ###
 #####################

@@ -8,7 +8,7 @@ Tutorial
    :backlinks: top
 
 Part I   - Simple substitution tags
-----------------------------------
+-----------------------------------
 
 The naive way's shortcomings
 ++++++++++++++++++++++++++++
@@ -262,7 +262,33 @@ any further.
 Using external template files
 +++++++++++++++++++++++++++++
 
+Fire up your favourite editor and start designing a simple template.
+I'll use a pretty minimal one, and save it as `test_template.txt`.
 
+.. include:: ../exemples/test_template.txt
+   :code:
+
+Blaaa...
+
+.. testsetup:: external-template
+
+   import os
+   os.chdir('exemples')
+
+   import tie
+   tie.tag.get_manager().clear()
+   tie.tag.register("%(\w+)%")
+
+.. doctest:: external-template
+
+   >>> my_template = tie.Template.from_file("test_template.txt")
+   >>> res = my_template(name="Eddie", age=21)
+   >>> print(res)
+   Hello, world!
+   My name is Eddie,
+   and I'm 21 years old!
+   Yay!
+   <BLANKLINE>
 
 Register your templates to a manager
 ++++++++++++++++++++++++++++++++++++

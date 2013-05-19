@@ -242,12 +242,27 @@ read up a bit on those, the solution becomes trivial:
 .. todo:: explain regex a bit + short conclusion
 
 Part II  - Managing your templates
----------------------------------
+----------------------------------
 
-Coming soon!
+While it's allright to define your template strings directly in your code for
+very simple use cases such as the ones we've covered so far,
+real world applications should enforce a better 
+`separation of concerns <http://en.wikipedia.org/wiki/Separation_of_concerns>`_
+and store their templates in external files.
+Think `MVC <http://en.wikipedia.org/wiki/Model-view-controller>`_:
+Your presentation layer (which most templating systems will be be a part of)
+should always be kept cleanly separated from the rest of your code.
+
+While you can certainly manage these external files yourself, TIE provides some
+handy shortcuts to help you keep your presentation layer 
+
+Let's have a look at those and start using some best-practices before diving in 
+any further.
 
 Using external template files
 +++++++++++++++++++++++++++++
+
+
 
 Register your templates to a manager
 ++++++++++++++++++++++++++++++++++++
@@ -255,7 +270,7 @@ Register your templates to a manager
 Since template manager are a nice, but rather optional feature, they haven't
 been implemented yet.
 
-I do plan to add the soon, so check back in a while for them!
+I do plan to add them soon, so check back in a while for them!
 
 Part III - Custom Tag behaviour
 -------------------------------

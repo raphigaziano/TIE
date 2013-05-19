@@ -5,7 +5,7 @@ Tag classes and utilities.
 
 Basic usage should only require the use of the register function.
 Simple customization can be achieved by explicit instanciation or subclassing 
-of the Tag class.
+of the Tag or TagManager classes.
 """
 import re
 import logging
@@ -24,19 +24,18 @@ class Tag(object):
     The user should not have to handle this process himself, but can
     provide callback functions to fine-tune a particular tag's processing and
     rendering.
-    Altering the tag mathcing logic will require redefining the match method.
+    Altering the tag matching logic will require redefining the match method.
     """
 
     def __init__(self, pattern, flags=0, processor=processors.sub): 
         """
-        Class initializer.
-        :param pattern: Regular expression used for tag matching.
-          Can be either a string or an already compiled regex object.
-          See the python docs for more information on python's regular 
-          expressions.
-        :param flags: re module's flags for pattern compilation.
-          Pass them just as you would when using the re.compile function.
-        :param processor: Tag processing callback. Defaults to processors.sub.
+        Parameters:
+        pattern:   Regular expression used for tag matching.
+                   Can be either a string or an already compiled regex object.
+        flags:     re module's flags for pattern compilation.
+                   Pass them just as you would when using the re.compile 
+                   function.
+        processor: Tag processing callback. Defaults to processors.sub.
         """
         try:
             self.regexp = re.compile(pattern, flags=flags)
@@ -52,22 +51,15 @@ class Tag(object):
         return "<%s %r>" % (self.__class__.__name__, self.regexp.pattern)
 
     def match(self, template):
-        """
-        Basic pattern matching.
-        :param template: String template to match
-        :returns: Iterator yielding found MatchObjects
-        """
+        """ Find all matched in template and return them as an iterator. """
         return self.regexp.finditer(template)
 
     def process(self, template, **context):
         """
-        Basic processing logic.
-        Scans the template string for all occurences of the Tag and process
+        Scan the template string for all occurences of the Tag and process
         those using the instance's own processor function.
-        :param template: String template to process.
-        :param **context: Keyword args will be passed to the Tag's processor
-          function.
-        :returns: Processed template.
+        Context args will be passed to the processor function.
+        Return the processed template.
         """
         out = template
         num_matches = 0
@@ -182,10 +174,7 @@ def set_manager(manager):
     _manager = manager
 
 def register(*tag_list):
-    """
-    Register a sequence of tags.
-    :param *tag_list: List of tags to be registered, as positional arguments.
-    """
+    """ Register a sequence of tags. """
     manager = get_manager()
     for tag in tag_list:
         manager.add(tag)

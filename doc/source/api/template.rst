@@ -1,5 +1,5 @@
-tie.template module
-===================
+Template module
+===============
 
 .. automodule:: tie.template
    :members:

@@ -1,5 +1,5 @@
-tie.tag module
-==============
+Tag module
+==========
 
 .. automodule:: tie.tag
    :members:

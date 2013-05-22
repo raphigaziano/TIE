@@ -272,7 +272,12 @@ I'll use a pretty minimal one, and save it as `test_template.txt`:
    and I'm %age% years old!
    Yay!
 
-Blaaa...
+Now, back to your python code.
+
+You could use the python builtin :func:`open` function to read your new
+template file and pass its contents to the 
+:class:`Template <tie.template.Template>`'s constructor,
+but the class provides a handy factory method to handle this for you:
 
 .. testsetup:: external-template
 
@@ -293,11 +298,15 @@ Blaaa...
    and I'm 21 years old!
    Yay!
    <BLANKLINE>
+   
+Just provide a valid path to your template and it will take care of 
+instanciating itself from its contents,
+allowing you to avoid some clutter and focus on more important stuff.
 
 Register your templates to a manager
 ++++++++++++++++++++++++++++++++++++
 
-Since template manager are a nice, but rather optional feature, they haven't
+Since template managers are a nice, but rather optional feature, they haven't
 been implemented yet.
 
 I do plan to add them soon, so check back in a while for them!

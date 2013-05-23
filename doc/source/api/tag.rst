@@ -21,7 +21,7 @@ Tag module
 
       tie.tag.register(
           "sometagpattern",
-          tie.Tag("anothertag", opts=FOO),
+          tie.Tag("anothertag", processor=FOO),
           MyCustomTagSubclass("taggytagtag"),
           ...
       )

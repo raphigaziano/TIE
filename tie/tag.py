@@ -84,7 +84,7 @@ class TagManager(object):
     insertion.
 
     Tags are stored in a simple list. Eventual subclasses will need to
-    redefine their access and __next__ method if they decide to use another
+    redefine their access and __iter__ method if they decide to use another
     data structure.
     """
     def __init__(self):

@@ -51,7 +51,7 @@ class Tag(object):
         return "<%s %r>" % (self.__class__.__name__, self.regexp.pattern)
 
     def match(self, template):
-        """ Find all matched in template and return them as an iterator. """
+        """ Find all matches in template and return them as an iterator. """
         return self.regexp.finditer(template)
 
     def process(self, template, **context):

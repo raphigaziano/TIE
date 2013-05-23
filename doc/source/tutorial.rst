@@ -22,6 +22,7 @@ Indeed, consider what would happen if you used another template string:
 .. testsetup:: naive-several-tag-occurences
 
    from __future__ import print_function
+   from __future__ import unicode literals
    import tie
    tie.tag.register("name")
 
@@ -51,6 +52,7 @@ Let's decide that our tags should be surrounded by '%' characters to be detected
 .. testsetup:: naive-tokens
 
    from __future__ import print_function
+   from __future__ import unicode literals
    import tie
    tie.tag.get_manager().clear() # Doesn't seem to be executed in previous test cleanup ???
 
@@ -136,6 +138,7 @@ Let's try this:
 .. testsetup:: simple-regex
 
    from __future__ import print_function
+   from __future__ import unicode literals
    import tie
    tie.tag.get_manager().clear()
 
@@ -229,6 +232,7 @@ read up a bit on those, the solution becomes trivial:
 .. testsetup:: generic-regex
 
    from __future__ import print_function
+   from __future__ import unicode literals
    import tie
    tie.tag.get_manager().clear()
 

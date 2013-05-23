@@ -29,6 +29,16 @@ Module's Top level Classes & Utilities
           ...
       )
 
+   .. note::
+
+      The actual arguments expected by `register` might vary if you decide to
+      use a different :class:`TagManager<tie.tag.TagManager>`.
+      For instance, a :class:`PriorityTagManager<tie.tag.PriorityTagManager>`
+      will expect tuples of (tag, priority).
+      `register` will simply pass each item it receives to the current manager;
+      see their documentation, as well as the one for any custom Tag class you 
+      might use, to know for certain how you should register your tag patterns.
+
    Internally, this function simply hands each of its parameters to the current
    :class:`TagManager<tie.tag.TagManager>`
    and lets it handle the registration process.
@@ -87,8 +97,6 @@ blaaaaa
 .. autofunction:: tie.tag.get_manager
 
 .. autoclass:: tie.tag.TagManager
-
-TEST
 
 .. autoclass:: tie.tag.PriorityTagManager
    :show-inheritance:

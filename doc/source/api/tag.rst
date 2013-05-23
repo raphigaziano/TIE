@@ -37,7 +37,36 @@ Module's Top level Classes & Utilities
 
 .. class:: tie.tag.Tag(pattern, flags=0, processor=tie.processors.sub)
 
-   blaaa
+   The Tag class is TIE's central component.
+
+   It's a somewhat boosted regular expression object, which knows how to look
+   for itself against a given template, and calls its `processor` function with
+   each match.
+
+   TIE takes care of managing and handling its registered Tag object, but 
+   instanciating them manually allows one to change their default behaviour
+   by providing a customm callback as the `processor` argument.
+
+   If further customisation is needed, feel free to override its public methods
+   in a subclass.
+
+   Parameters:
+
+   - `pattern`:   Regular expression used for tag matching.
+                  This can be either a normal string or an already compiled
+                  regular expression.
+   - `flags`:     :mod:`re` module's flags for pattern compilation.
+                  Pass them just as you would when using the 
+                  :func:`re.compile` function.
+   - `processor`: Tag processing callback.
+                  Processor function should accept a :class:`match` object as
+                  their first parameter, and a dictionnary of keyword arguments
+                  containing the context variables available for processing.
+                  
+                  For more information about tag processors, see this
+                  HOWTO on tags customization (once its there, that is...)
+
+   .. todo:: Link to custom tags guide
 
    .. automethod:: match
 
@@ -48,6 +77,16 @@ Module's Top level Classes & Utilities
    For convenience, the Tag class is imported into TIE's global namespace,
    so you can just `import tie.Tag`.
 
+Managers
+========
+
+blaaaaa
+
+.. autofunction:: tie.tag.set_manager
+
+.. autofunction:: tie.tag.get_manager
+
+.. autoclass:: tie.tag.TagManager
 
 TEST
 

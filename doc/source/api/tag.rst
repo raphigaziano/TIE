@@ -78,7 +78,7 @@ Module's Top level Classes & Utilities
    so you can just `import tie.Tag`.
 
 Managers
-========
+--------
 
 blaaaaa
 

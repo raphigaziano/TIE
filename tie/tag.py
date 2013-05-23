@@ -35,7 +35,7 @@ class Tag(object):
         flags:     re module's flags for pattern compilation.
                    Pass them just as you would when using the re.compile 
                    function.
-        processor: Tag processing callback. Defaults to processors.sub.
+        processor: Tag processing callback. 
         """
         try:
             self.regexp = re.compile(pattern, flags=flags)

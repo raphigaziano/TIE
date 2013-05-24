@@ -97,6 +97,9 @@ blaaaaa
 .. autofunction:: tie.tag.get_manager
 
 .. autoclass:: tie.tag.TagManager
+   :members:
 
 .. autoclass:: tie.tag.PriorityTagManager
    :show-inheritance:
+   :members:
+

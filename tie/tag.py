@@ -49,8 +49,12 @@ class Tag(object):
         self.processor = processor
 
     def __str__(self):
-        """ Instance representation """
+        """ To string """
         return "<%s %r>" % (self.__class__.__name__, self.regexp.pattern)
+
+    def __repr__(self):
+        """ Instance representation """
+        return self.__str__()
 
     def match(self, template):
         """

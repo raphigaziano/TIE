@@ -11,7 +11,6 @@ from tie.exceptions import TemplateError
 
 LOGGER = logging.getLogger(__name__)
 
-
 class Template(object):
     """
     Template object.

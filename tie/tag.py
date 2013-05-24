@@ -16,6 +16,7 @@ from tie.exceptions import InvalidTagError
 
 LOGGER = logging.getLogger(__name__)
 
+@utils.implements_to_string
 class Tag(object):
     """
     Custom, user defined template tag.
@@ -47,7 +48,7 @@ class Tag(object):
             )
         self.processor = processor
 
-    def __repr__(self):
+    def __str__(self):
         """ Instance representation """
         return "<%s %r>" % (self.__class__.__name__, self.regexp.pattern)
 

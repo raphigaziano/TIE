@@ -40,16 +40,6 @@ API Reference
 
    api/index
 
-TEST
-----
-
-.. toctree::
-   :maxdepth: 2
-
-   test-api/modules
-   test-api/tie
-   test-api/tie.test
-
 Indices and tables
 ==================
 

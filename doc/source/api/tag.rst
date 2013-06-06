@@ -99,6 +99,8 @@ blaaaaa
 .. autoclass:: tie.tag.TagManager
    :members:
 
+   .. automethod:: classmethod _check_tag(tag, :class:`Tag<tie.tag.Tag`
+
 .. autoclass:: tie.tag.PriorityTagManager
    :show-inheritance:
    :members:

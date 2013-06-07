@@ -157,8 +157,6 @@ TIE comes with the following managers:
    Subclasses will probably need to override this attribute in order to use
    other data structures.
 
-   .. todo:: __init__!!!
-
    .. automethod:: tie.tag.TagManager.add
 
       This method is called by the :func:`register<tie.tag.register>` function.

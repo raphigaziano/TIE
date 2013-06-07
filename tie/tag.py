@@ -88,28 +88,28 @@ class TagManager(object):
     data structure.
     """
     def __init__(self):
-        self.tag_list = []
+        self._tag_list = []
 
     def add(self, tag):
         """
         Register a new tag.
         Override to accomodate a different internal data strucutre.
         """
-        self.tag_list.append(self._check_tag(tag))
+        self._tag_list.append(self._check_tag(tag))
 
     def clear(self):
         """
         Clear the internal tag list.
         Override to accomodate a different internal data strucutre.
         """
-        self.tag_list = []
+        self._tag_list = []
 
     def __iter__(self):
         """
         Yield contained tags.
         Override to accomodate a different internal data strucutre.
         """
-        for tag in self.tag_list:
+        for tag in self._tag_list:
             yield tag
     
     @staticmethod
@@ -130,7 +130,7 @@ class PriorityTagManager(TagManager):
     in that order.
     """
     def __init__(self):
-        self.tag_list = {}
+        self._tag_list = {}
 
     def add(self, tag):
         """
@@ -143,16 +143,16 @@ class PriorityTagManager(TagManager):
         except TypeError:
             tag_obj, priority = tag, 0
         tag_obj = self._check_tag(tag_obj)
-        self.tag_list.setdefault(priority, []).append(tag_obj)
+        self._tag_list.setdefault(priority, []).append(tag_obj)
 
     def clear(self):
         """ Clear the internal tag list. """
-        self.tag_list = {}
+        self._tag_list = {}
 
     def __iter__(self):
         """ Yield contained tags. """
-        for i in sorted(self.tag_list.keys()):
-            for tag in self.tag_list[i]:
+        for i in sorted(self._tag_list.keys()):
+            for tag in self._tag_list[i]:
                 yield tag
 
 # "Global" manager instance.
@@ -167,7 +167,8 @@ def get_manager():
 
 def set_manager(manager):
     """
-    Set the global TagManager to manager. Only useful to setup a custom manager.
+    Set the global TagManager to ``manager``. Only useful to setup a custom
+    manager.
     """
     global _manager
     LOGGER.info("New Tag manager: %s" % manager)

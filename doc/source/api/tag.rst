@@ -14,11 +14,13 @@ Module's Top level Classes & Utilities
    Since your Tag list is needed by various internal parts of the TIE library,
    you **must** use this function in order for them to have any effect. TIE
    stores them in a default :class:`TagManager<tie.tag.TagManager>` instance,
-   which you can customize if you need it to behave differently (See below).
+   which you can replace if you need it to behave differently (See below).
 
    Each `tag` parameter should be either a string of the tag's regular
    expression (or an already compiled regex object), or an instance
    of :class:`Tag<tie.tag.Tag>` (or of any class inheriting from it).
+   Instanciating you Tag objects manually allows you to adjust their behaviour,
+   either by tweaking their default parmaters or by using a custom subclass.
 
    ::
 
@@ -49,9 +51,9 @@ Module's Top level Classes & Utilities
 
    The Tag class is TIE's central component.
 
-   It's a somewhat boosted regular expression object, which knows how to look
-   for itself against a given template, and calls its `processor` function with
-   each match.
+   It's a somewhat boosted regular expression object, which knows how to match
+   itself against a given template, and modify the occurences of itself within
+   the template's text using its internal `processor` function.
 
    TIE takes care of managing and handling its registered Tag object, but 
    instanciating them manually allows one to change their default behaviour
@@ -85,21 +87,102 @@ Module's Top level Classes & Utilities
 .. note::
 
    For convenience, the Tag class is imported into TIE's global namespace,
-   so you can just `import tie.Tag`.
+   so you can just ``import tie.Tag``.
 
 Managers
 --------
 
-blaaaaa
+TIE uses an internal manager object to keep track of every registered tag.
+It will use a basic :class:`TagManager<tie.tag.TagManager>` instance by default,
+which should be able to handle the most basic use cases, so that you don't have
+to worry about those if you don't need to.
+
+It also provides a few specialized managers with commonly needed special
+behaviour. If you need tighter control on how your tags should be stored and
+handled, you can also define and use your own 
+:class:`TagManager<tie.tag.TagManager>` subclass.
+
+The :mod:`tie.tag` module exposes the two following functions to set or 
+access the current manager:
 
 .. autofunction:: tie.tag.set_manager
 
 .. autofunction:: tie.tag.get_manager
 
-.. autoclass:: tie.tag.TagManager
-   :members:
+.. note::
 
-   .. automethod:: classmethod _check_tag(tag, :class:`Tag<tie.tag.Tag`
+   Since the :func:`register<tie.tag.register>` function appends the tags it
+   receives to the current manager, it should only be called after setting any
+   custom one.
+
+.. warning::
+
+   Unlike Template Managers, which are completely optionnal, most of TIE's
+   internal objects *require* a global TagManager instance to be set in order 
+   to be able to perform their tasks. While it is possible to bypass
+   calling the :func:`get_manager` function when using a non-default manager 
+   if you also tweak these objects, doing so will probably bypass most of TIE's
+   convenience as well.
+
+TIE comes with the following managers:
+
+.. class:: tie.tag.TagManager
+
+   A basic :class:`Tag<tie.tie.Tag>` container to keep track of registered 
+   tags. TIE will use this manager by default.
+   You can iterate over it to retrieve individual tags -- Those will be yielded
+   in the order of their insertion:
+
+   .. testsetup:: manager-iteration
+
+      from __future__ import print_function
+      import tie
+      tie.tag.get_manager().clear()
+
+   .. doctest:: manager-iteration
+
+      >>> tie.tag.register('pattern2',
+      ...                  'pattern1',
+      ...                  'pattern3'
+      ... )
+      >>> manager = tie.tag.get_manager()
+      >>> for tag in manager:
+      ...     print(tag)
+      ... 
+      <Tag 'pattern2'>
+      <Tag 'pattern1'>
+      <Tag 'pattern3'>
+
+   Tags are stored in a simple list, in a "private" _tag_list attribute. 
+   Subclasses will probably need to override this attribute in order to use
+   other data structures.
+
+   .. automethod:: tie.tag.TagManager.add
+
+      This method is called by the :func:`register<tie.tag.register>` function.
+
+   .. automethod:: tie.tag.TagManager.clear
+
+   .. automethod:: tie.tag.TagManager.__iter__
+
+   .. method:: tie.tag.TagManager._check_tag(tag, cls=tie.tag.Tag)
+
+      Internal checking method, called before inserting any tag to the
+      manager's tag list.
+      It simply passes its ``tag`` parameter to the ``cls`` constructor if
+      ``tag`` is not already an instance (or subclass) of it -- 
+      This is what allows you to pass either regular strings or
+      :class:`Tag<tie.tag.Tag>` instances to the 
+      :func:`register<tie.tag.register>` function.
+      
+      Actual error handling is left to the called constructor.
+
+      You might need to override this method if you're using fancier Tag 
+      objects. If not, you should probably still remember to call it before
+      inserting your tags when redefining the
+      :func:`add<tie.tag.TagManager.add>` method.
+
+Moar specialized managers provided by TIE are listed below:
 
 .. autoclass:: tie.tag.PriorityTagManager
    :show-inheritance:

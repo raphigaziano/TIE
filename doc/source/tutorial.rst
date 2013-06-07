@@ -239,7 +239,7 @@ read up a bit on those, the solution becomes trivial:
    >>> my_template(name="raphi", age=26)
    "Hello, my name is raphi and I'm 26 years old!"
    
-The ``\\w`` special sequence will match any alphanumeric character
+The ``\w`` special sequence will match any alphanumeric character
 (that is, any upper-or-lowercase letter, number, or underscore). The ``+``
 indicates that the preceding pattern should appear at least once, and can be
 repeated several times. So in effect, this regular expression will match any

@@ -262,6 +262,12 @@ Think `MVC <http://en.wikipedia.org/wiki/Model-view-controller>`_:
 Your presentation layer (which most templating systems will be be a part of)
 should always be kept cleanly separated from the rest of your code.
 
+Also, we're dealing with very short and simple templates here.
+Real world applications will probably need much larger templates, and jugling
+with all those multiline strings in the middle of your code will surely prove
+annoying and difficult, which is another reason why you should just store
+them in external text files.
+
 While you can certainly manage these external files yourself, TIE provides some
 handy shortcuts to help you keep things nice and tidy.
 

@@ -14,7 +14,7 @@ Module's Top level Classes & Utilities
    Since your Tag list is needed by various internal parts of the TIE library,
    you **must** use this function in order for them to have any effect. TIE
    stores them in a default :class:`TagManager<tie.tag.TagManager>` instance,
-   which you can customize you need it to behave differently.
+   which you can customize if you need it to behave differently (See below).
 
    Each `tag` parameter should be either a string of the tag's regular
    expression (or an already compiled regex object), or an instance

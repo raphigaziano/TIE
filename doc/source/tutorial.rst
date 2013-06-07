@@ -239,7 +239,16 @@ read up a bit on those, the solution becomes trivial:
    >>> my_template(name="raphi", age=26)
    "Hello, my name is raphi and I'm 26 years old!"
    
-.. todo:: explain regex a bit + short conclusion
+The `\\w` special sequence will match any alphanumeric character
+(that is, any upper-or-lowercase letter, number, or underscore). The `+`
+indicates that the preceding pattern should appear at least once, and can be
+repeated several times. So in effect, this regular expression will match any
+single word not containing fancy characters and surrounded by percent signs.
+And since underscores are allowed, any valid variable name should match!
+
+Once again, if you need to get up to date about regular expressions, I 
+recommend starting with the `guide <http://docs.python.org/2/howto/regex.html>`_
+from the official Python documentation.
 
 Part II  - Managing your templates
 ----------------------------------
@@ -254,7 +263,7 @@ Your presentation layer (which most templating systems will be be a part of)
 should always be kept cleanly separated from the rest of your code.
 
 While you can certainly manage these external files yourself, TIE provides some
-handy shortcuts to help you keep your presentation layer 
+handy shortcuts to help you keep things nice and tidy.
 
 Let's have a look at those and start using some best-practices before diving in 
 any further.

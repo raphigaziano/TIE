@@ -93,7 +93,7 @@ class TagManager(object):
     def add(self, tag):
         """
         Register a new tag.
-        Override to accomodate a different internal data strucutre.
+        Override this method to accomodate a different internal data strucutre.
         """
         self._tag_list.append(self._check_tag(tag))
 
@@ -135,8 +135,8 @@ class PriorityTagManager(TagManager):
     def add(self, tag):
         """
         Register a new tag. 
-        tag should be a tupple (tag, priority). If not, priority will
-        default to 0.
+        ``tag`` should be a tupple ``(tag, priority)``. If not, ``priority``
+        will default to 0.
         """
         try:
             tag_obj, priority = tag

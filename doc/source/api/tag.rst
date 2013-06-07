@@ -19,8 +19,8 @@ Module's Top level Classes & Utilities
    Each `tag` parameter should be either a string of the tag's regular
    expression (or an already compiled regex object), or an instance
    of :class:`Tag<tie.tag.Tag>` (or of any class inheriting from it).
-   Instanciating you Tag objects manually allows you to adjust their behaviour,
-   either by tweaking their default parmaters or by using a custom subclass.
+   Instanciating your Tag objects manually allows you to adjust their behaviour,
+   either by tweaking their default parameters or by using a custom subclass:
 
    ::
 
@@ -30,6 +30,12 @@ Module's Top level Classes & Utilities
           MyCustomTagSubclass("taggytagtag"),
           ...
       )
+
+   Internally, this function simply hands each of its parameters to the current
+   :class:`TagManager<tie.tag.TagManager>`
+   and lets it handle the registration process.
+   Actual error checking is done in the :class:`Tag<tie.tag.Tag>`
+   's constructor.
 
    .. note::
 
@@ -41,23 +47,17 @@ Module's Top level Classes & Utilities
       see their documentation, as well as the one for any custom Tag class you 
       might use, to know for certain how you should register your tag patterns.
 
-   Internally, this function simply hands each of its parameters to the current
-   :class:`TagManager<tie.tag.TagManager>`
-   and lets it handle the registration process.
-   Actual error checking is done in the :class:`Tag<tie.tag.Tag>`
-   's constructor.
-
 .. class:: tie.tag.Tag(pattern, flags=0, processor=tie.processors.sub)
 
    The Tag class is TIE's central component.
 
    It's a somewhat boosted regular expression object, which knows how to match
-   itself against a given template, and modify the occurences of itself within
-   the template's text using its internal `processor` function.
+   itself against a given template, and modify each occurence of its pattern 
+   within the template's text using its internal `processor` function.
 
    TIE takes care of managing and handling its registered Tag object, but 
    instanciating them manually allows one to change their default behaviour
-   by providing a customm callback as the `processor` argument.
+   by providing a custom callback as the `processor` argument.
 
    If further customisation is needed, feel free to override its public methods
    in a subclass.
@@ -94,7 +94,7 @@ Managers
 
 TIE uses an internal manager object to keep track of every registered tag.
 It will use a basic :class:`TagManager<tie.tag.TagManager>` instance by default,
-which should be able to handle the most basic use cases, so that you don't have
+which should be able to handle the simplest use cases, so that you don't have
 to worry about those if you don't need to.
 
 It also provides a few specialized managers with commonly needed special
@@ -120,15 +120,15 @@ access the current manager:
    Unlike Template Managers, which are completely optionnal, most of TIE's
    internal objects *require* a global TagManager instance to be set in order 
    to be able to perform their tasks. While it is possible to bypass
-   calling the :func:`get_manager` function when using a non-default manager 
-   if you also tweak these objects, doing so will probably bypass most of TIE's
-   convenience as well.
+   calling the :func:`get_manager<tie.tag.get_manager>` function when using a 
+   non-default manager if you also tweak these objects, doing so will probably 
+   bypass most of TIE's convenience as well.
 
 TIE comes with the following managers:
 
 .. class:: tie.tag.TagManager
 
-   A basic :class:`Tag<tie.tie.Tag>` container to keep track of registered 
+   A basic :class:`Tag<tie.tag.Tag>` container to keep track of registered 
    tags. TIE will use this manager by default.
    You can iterate over it to retrieve individual tags -- Those will be yielded
    in the order of their insertion:
@@ -153,9 +153,11 @@ TIE comes with the following managers:
       <Tag 'pattern1'>
       <Tag 'pattern3'>
 
-   Tags are stored in a simple list, in a "private" _tag_list attribute. 
+   Tags are stored in a simple list, in a "private" ``_tag_list`` attribute. 
    Subclasses will probably need to override this attribute in order to use
    other data structures.
+
+   .. todo:: __init__!!!
 
    .. automethod:: tie.tag.TagManager.add
 

@@ -82,6 +82,8 @@ callbacks callbacks callbacks
   see:
   http://emilics.com/blog/article/multi_replace.html
 
+- TODO: helpers for inclusion - inheritance?
+
 API
 ~~~
 

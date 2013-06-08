@@ -38,7 +38,9 @@ API Reference
 .. toctree::
    :maxdepth: 1
 
-   api/index
+   api/exceptions
+   api/tag
+   api/template
 
 Indices and tables
 ==================

@@ -186,5 +186,35 @@ Moar specialized managers provided by TIE are listed below:
 
 .. autoclass:: tie.tag.PriorityTagManager
    :show-inheritance:
-   :members:
+
+   Tags with the lowest priority value will be yielded first:
+
+   .. testsetup:: priority-ordering
+
+      from __future__ import print_function
+      import tie
+      tie.tag.get_manager().clear()
+
+   .. doctest:: priority-ordering
+
+      >>> tie.tag.set_manager(tie.tag.PriorityTagManager())
+      >>> tie.tag.register(
+      ...     ('sometag', 2),
+      ...     ('othertag', 0),
+      ...     (tie.tag.Tag('taggytag'), 1),
+      ... )
+      >>> manager = tie.tag.get_manager()
+      >>> for tag in manager:
+      ...     print(tag)
+      ...
+      <Tag 'othertag'>
+      <Tag 'taggytag'>
+      <Tag 'sometag'>
+
+   .. testcleanup:: priority-ordering
+      
+      tie.tag.set_manager(tie.tag.TagManager())
+
+   .. automethod:: tie.tag.PriorityTagManager.add
+   .. automethod:: tie.tag.PriorityTagManager.clear
 

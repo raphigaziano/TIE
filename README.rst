@@ -14,7 +14,7 @@ Template Illiterate Engine
 .. include:: doc/source/intro.rst
 
 This README was pulled from the 
-`Full documentation <https://tie.readthedocs.org/en/latest/index.html>`
+`Full documentation <https://tie.readthedocs.org/en/latest/index.html>`_
 hosted on readthedocs.
 
 TODO

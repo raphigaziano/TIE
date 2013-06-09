@@ -11,7 +11,7 @@ Template Illiterate Engine
 
 .. contents::
 
-.. include:: doc/source/intro.rst
+.. include:: https://raw.github.com/raphigaziano/TIE/doc/doc/source/intro.rst
 
 This README was pulled from the 
 `Full documentation <https://tie.readthedocs.org/en/latest/index.html>`_

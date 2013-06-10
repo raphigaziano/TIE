@@ -201,7 +201,7 @@ Moar specialized managers provided by TIE are listed below:
       >>> tie.tag.register(
       ...     ('sometag', 2),
       ...     ('othertag', 0),
-      ...     (tie.tag.Tag('taggytag'), 1),
+      ...     ('taggytag', 1),
       ... )
       >>> manager = tie.tag.get_manager()
       >>> for tag in manager:

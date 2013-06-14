@@ -16,5 +16,25 @@ template objects.
    .. todo:: Class doc & __init__
 
    .. automethod:: tie.template.Template.render
+
    .. automethod:: tie.template.Template.__call__
+
+    This is what allows you to simply call your template objects directly:
+
+    ::
+
+        >>> t = Template("Hello, %name%!")
+        >>> res = t(name="Santa")
+        >>> print(res)
+        'Hello, Santa!'
+
+    is equivalent to:
+
+    ::
+
+        >>> t = Template("Hello, %name%!")
+        >>> res = t.render(name="Santa")
+        >>> print(res)
+        'Hello, Santa!'
+
    .. automethod:: tie.template.Template.from_file

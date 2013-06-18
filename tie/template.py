@@ -30,9 +30,12 @@ class Template(object):
         self.template = tmpl
         self.renderer = renderer
     
-    def __call__(self, **kwargs):
-        """ Convenience alias for Template.render. """
-        return self.render(**kwargs)
+    def __call__(self, **context):
+        """
+        Convenience alias for
+        :func:`Template.render()<tie.template.Template.render>`.
+        """
+        return self.render(**context)
 
     def render(self, **context):
         """

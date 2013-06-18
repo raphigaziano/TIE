@@ -38,3 +38,8 @@ template objects.
         'Hello, Santa!'
 
    .. automethod:: tie.template.Template.from_file
+
+.. note::
+
+   For convenience, the Template class is imported into TIE's global namespace,
+   so you can just ``import tie.Template``.

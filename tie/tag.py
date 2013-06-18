@@ -79,12 +79,12 @@ class Tag(object):
         for m in self.match(template):
             num_matches += 1
             src_tag = m.group(0)
-            LOGGER.debug("%s matched %s" % (self, src_tag))
+            LOGGER.debug("%s matched %s", self, src_tag)
             val = self.processor(m, **context)
-            LOGGER.debug("Substituting %s for %s" % (val, src_tag))
+            LOGGER.debug("Substituting %s for %s", val, src_tag)
             out = out.replace(src_tag, val)
             # out = re.sub(src_tag, val, out)
-        LOGGER.debug("Found %i matches for %s" % (num_matches, self))
+        LOGGER.debug("Found %i matches for %s", num_matches, self)
         return out
 
 ### Managers ###
@@ -183,7 +183,7 @@ def set_manager(manager):
     Set the global TagManager to manager. Only useful to setup a custom manager.
     """
     global _manager
-    LOGGER.info("New Tag manager: %s" % manager)
+    LOGGER.info("New Tag manager: %s", manager)
     _manager = manager
 
 def register(*tag_list):
@@ -194,5 +194,5 @@ def register(*tag_list):
     manager = get_manager()
     for tag in tag_list:
         manager.add(tag)
-        LOGGER.info("Registered: %s" % utils.unicode(tag))
+        LOGGER.info("Registered: %s", utils.unicode(tag))
 

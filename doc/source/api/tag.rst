@@ -170,6 +170,8 @@ TIE comes with the following managers:
 
    .. method:: TagManager._check_tag(tag, cls=tie.tag.Tag)
 
+      Static method.
+
       Internal checking method, called before inserting any tag to the
       manager's tag list.
       It simply passes its ``tag`` parameter to the ``cls`` constructor if

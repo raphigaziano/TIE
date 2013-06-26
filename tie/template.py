@@ -40,8 +40,8 @@ class Template(object):
     def render(self, **context):
         """
         Process the template & return the result.
-        context is the keyword dict of context variables to be injected into 
-        the processed template.
+        context is the keyword dictionary of context variables to be injected 
+        into the processed template.
         """
         LOGGER.info("Rendering template %s" % self)
         LOGGER.debug("Context vars: %s" % context)

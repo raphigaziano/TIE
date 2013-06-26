@@ -33,6 +33,9 @@ template objects.
 
    .. automethod:: tie.template.Template.render
 
+   Override this method if you need some custom behiavour that can't be handled
+   by a simple callback.
+
    .. automethod:: tie.template.Template.__call__
 
     This is what allows you to simply call your template objects directly:

@@ -168,7 +168,7 @@ TIE comes with the following managers:
 
    .. automethod:: tie.tag.TagManager.__iter__
 
-   .. method:: tie.tag.TagManager._check_tag(tag, cls=tie.tag.Tag)
+   .. method:: TagManager._check_tag(tag, cls=tie.tag.Tag)
 
       Internal checking method, called before inserting any tag to the
       manager's tag list.

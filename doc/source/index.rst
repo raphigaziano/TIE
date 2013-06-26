@@ -41,6 +41,9 @@ API Reference
    api/exceptions
    api/tag
    api/template
+   api/processors
+   api/renderers
+   api/helpers
 
 Indices and tables
 ==================

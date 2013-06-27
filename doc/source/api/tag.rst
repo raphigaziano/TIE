@@ -60,7 +60,7 @@ Module's Top level Classes & Utilities
    TIE takes care of managing and handling its registered Tag object, but 
    instanciating them manually allows one to change their default behaviour
    by providing a custom callback as the `processor` argument. (Default 
-   processors callbacks are defined in the :mod:`tie.processors` module.)
+   processors callbacks are defined in the :mod:`<tie.processors>` module.)
 
    If further customisation is needed, feel free to override its public methods
    in a subclass.

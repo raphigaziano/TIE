@@ -57,9 +57,26 @@ but become too unwieldy to handle the task in a straight-forward way.
 Installation
 ------------
 
-.. todo::
-   - pip install command
-   - cloning instructions
+You can install TIE by simply using pip (this is the recomanded way):
+
+::
+
+   pip install tie
+
+If you must, you can also use easy_install:
+
+::
+
+   easy_install tie
+
+Alternativeley, you could also clone this repo and run the setup script:
+
+::
+
+   git clone https://github.com/raphigaziano/TIE
+   cd TIE/
+   python setup.py install
+
 
 .. _intro-overview:
 

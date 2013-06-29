@@ -69,7 +69,8 @@ If you must, you can also use easy_install:
 
    easy_install tie
 
-Alternativeley, you could also clone this repo and run the setup script:
+Alternativeley, you could also clone the project's repository and run the 
+setup script:
 
 ::
 

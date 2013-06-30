@@ -1,7 +1,10 @@
 Tutorial
 ========
 
-.. todo:: Tuts overview
+This tutorial aims to explain how to use TIE to create a simple, yet useful
+template language. This will cover the basics of tag definition and 
+registration, as well as the creation of a few custom tags with specialized
+behaviour, and how to easily manage them.
 
 .. contents::
    :local:

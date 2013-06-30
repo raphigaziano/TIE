@@ -138,6 +138,7 @@ class PriorityTagManager(TagManager):
     in that order.
     """
     def __init__(self):
+        super(PriorityTagManager, self).__init__()
         self._tag_list = {}
 
     def add(self, tag):

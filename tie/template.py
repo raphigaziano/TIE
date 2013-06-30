@@ -42,8 +42,8 @@ class Template(object):
         context is the keyword dictionary of context variables to be injected 
         into the processed template.
         """
-        LOGGER.info("Rendering template %s" % self)
-        LOGGER.debug("Context vars: %s" % context)
+        LOGGER.info("Rendering template %s", self)
+        LOGGER.debug("Context vars: %s", context)
         return self.renderer(self, **context)
 
     @classmethod

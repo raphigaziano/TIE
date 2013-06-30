@@ -1,13 +1,5 @@
-===
-TIE
-===
-
-Template Illiterate Engine
-
-.. image:: https://raw.github.com/raphigaziano/TIE/master/TIE.jpg
-   :alt: Twin Ion Engine of Awesomeness
-   :align: center
-   :scale: 50 %
+Introduction
+============
 
 .. contents::
    :local:
@@ -41,6 +33,15 @@ You'll be far better off using an already established template language -
 part of the python ecosystem and have more than proven themselves.
 Trying to emulate one of those with TIE *might* be possible,
 but will surely prove very cumbersome and inneficient.
+
+.. note::
+
+  If you're looking for a lightweight, but more featured template engine, I'd
+  like to recommend
+  `pyratemp <http://www.simple-is-better.org/template/pyratemp.html>`_.
+  I like the author's "simple is better" philosophy, and his
+  `thoughts on template engines <http://www.simple-is-better.org/template/>`_ 
+  have been a nice source of inspiration for TIE.
     
 On the other hand, TIE might still be overkill if your requirements are very
 simple.
@@ -56,9 +57,29 @@ but become too unwieldy to handle the task in a straight-forward way.
 Installation
 ------------
 
-.. todo::
-   - pip install command
-   - cloning instructions
+You can install TIE by simply using pip (this is the recomanded way):
+
+::
+
+   pip install tie
+
+If you must, you can also use easy_install:
+
+::
+
+   easy_install tie
+
+Alternativeley, you could also clone the project's repository and run the 
+setup script:
+
+::
+
+   git clone https://github.com/raphigaziano/TIE
+   cd TIE/
+   python setup.py install
+
+
+.. _intro-overview:
 
 Getting Started
 ---------------
@@ -71,22 +92,32 @@ For most basic uses, rendering a template with TIE involves 3 simple steps:
 
 A naive exemple could look like this:
 
-.. code-block:: python
+.. testsetup::
 
-   >>> import tie
-   >>> # Register a tag pattern
-   >>> tie.tag.register("name")
-   >>> # Instanciate a Template object
-   >>> my_template = tie.Template("Hello, name!")
-   >>> # Render it!
-   >>> res = my_template(name="raphi")
-   >>> print(res)
-   Hello, raphi!
-   >>> res = my_template(name="Darth Vader, lord of the sith")
-   >>> print(res)
-   Hello, Darth Vader, lord of the sith!
+   from __future__ import print_function
 
-Read the (still incomplete)
-`Full documentation <https://tie.readthedocs.org/en/latest/index.html>`_
-hosted on readthedocs.
+>>> import tie
+>>> # Register a tag pattern
+>>> tie.tag.register("name")
+>>> # Instanciate a Template object
+>>> my_template = tie.Template("Hello, name!")
+>>> # Render it!
+>>> res = my_template(name="raphi")
+>>> print(res)
+Hello, raphi!
+>>> res = my_template(name="Darth Vader, lord of the sith")
+>>> print(res)
+Hello, Darth Vader, lord of the sith!
 
+.. note::
+
+   For testing purposes, I'm using the python 3 print function here,
+   but this should work just as well with the python 2.x syntax. 
+   Adjust the code accordingly, or add a
+   ``from __future__ import print_function`` statement before running this code.
+
+While this exemple is way too simple to be useful, 
+the basic process it illustrates should be able to handle a lot of common 
+situations.
+
+Head on to the :doc:`TIE tutorial <tutorial>` to start using TIE the right way !

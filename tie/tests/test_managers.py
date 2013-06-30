@@ -71,7 +71,7 @@ class TestPriorityTagManager(unittest.TestCase):
         """ Registering a tag without specifying a priority: default to 0 """
         tag_objs = [Tag("dummy"), Tag("dumdum"), Tag("mudmud")]
         tag.register(*tag_objs)
-        tags = tag.get_manager().tag_list
+        tags = tag.get_manager()._tag_list
         self.assertTrue(0 in tags.keys())
         self.assertEqual(len(tags[0]), 3)
         self.assertListEqual(tags[0], tag_objs)
@@ -100,8 +100,8 @@ class TestRegistration(unittest.TestCase):
     def test_basic_registration(self):
         """ Basic tag registration and retrieval """
         tag.register(*self.tags)
-        self.assertEqual(len(tag._manager.tag_list), 3)
-        self.assertListEqual(self.tags, tag._manager.tag_list)
+        self.assertEqual(len(tag._manager._tag_list), 3)
+        self.assertListEqual(self.tags, tag._manager._tag_list)
 
     def test_custom_manager_registration(self):
         """ Registration with a custom tag manager """
@@ -134,4 +134,4 @@ class TestRegistration(unittest.TestCase):
         class DummyTag(Tag): pass
         t = DummyTag("dummy")
         tag.register(t)
-        self.assertTrue(isinstance(tag.get_manager().tag_list[0], DummyTag))
+        self.assertTrue(isinstance(tag.get_manager()._tag_list[0], DummyTag))

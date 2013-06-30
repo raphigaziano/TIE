@@ -5,7 +5,7 @@ Tag classes and utilities.
 
 Basic usage should only require the use of the register function.
 Simple customization can be achieved by explicit instanciation or subclassing 
-of the Tag class.
+of the Tag or TagManager classes.
 """
 import re
 import logging
@@ -25,19 +25,18 @@ class Tag(object):
     The user should not have to handle this process himself, but can
     provide callback functions to fine-tune a particular tag's processing and
     rendering.
-    Altering the tag mathcing logic will require redefining the match method.
+    Altering the tag matching logic will require redefining the match method.
     """
 
     def __init__(self, pattern, flags=0, processor=processors.sub): 
         """
-        Class initializer.
-        :param pattern: Regular expression used for tag matching.
-          Can be either a string or an already compiled regex object.
-          See the python docs for more information on python's regular 
-          expressions.
-        :param flags: re module's flags for pattern compilation.
-          Pass them just as you would when using the re.compile function.
-        :param processor: Tag processing callback. Defaults to processors.sub.
+        Parameters:
+        pattern:   Regular expression used for tag matching.
+                   Can be either a string or an already compiled regex object.
+        flags:     re module's flags for pattern compilation.
+                   Pass them just as you would when using the re.compile 
+                   function.
+        processor: Tag processing callback. 
         """
         try:
             self.regexp = re.compile(pattern, flags=flags)
@@ -58,21 +57,17 @@ class Tag(object):
 
     def match(self, template):
         """
-        Basic pattern matching.
-        :param template: String template to match
-        :returns: Iterator yielding found MatchObjects
+        Find all matches in ``template`` and return them as an generator
+        object. 
         """
         return self.regexp.finditer(template)
 
     def process(self, template, **context):
         """
-        Basic processing logic.
-        Scans the template string for all occurences of the Tag and process
+        Scan the template string for all occurences of the Tag and process
         those using the instance's own processor function.
-        :param template: String template to process.
-        :param **context: Keyword args will be passed to the Tag's processor
-          function.
-        :returns: Processed template.
+        Context args will be passed to the processor function.
+        Return the processed template.
         """
         out = template
         num_matches = 0
@@ -97,32 +92,32 @@ class TagManager(object):
     insertion.
 
     Tags are stored in a simple list. Eventual subclasses will need to
-    redefine their access and __next__ method if they decide to use another
+    redefine their access and __iter__ method if they decide to use another
     data structure.
     """
     def __init__(self):
-        self.tag_list = []
+        self._tag_list = []
 
     def add(self, tag):
         """
         Register a new tag.
-        Override to accomodate a different internal data strucutre.
+        Override this method to accomodate a different internal data strucutre.
         """
-        self.tag_list.append(self._check_tag(tag))
+        self._tag_list.append(self._check_tag(tag))
 
     def clear(self):
         """
         Clear the internal tag list.
         Override to accomodate a different internal data strucutre.
         """
-        self.tag_list = []
+        self._tag_list = []
 
     def __iter__(self):
         """
         Yield contained tags.
         Override to accomodate a different internal data strucutre.
         """
-        for tag in self.tag_list:
+        for tag in self._tag_list:
             yield tag
     
     @staticmethod
@@ -143,29 +138,29 @@ class PriorityTagManager(TagManager):
     in that order.
     """
     def __init__(self):
-        self.tag_list = {}
+        self._tag_list = {}
 
     def add(self, tag):
         """
         Register a new tag. 
-        tag should be a tupple (tag, priority). If not, priority will
-        default to 0.
+        ``tag`` should be a tupple ``(tag, priority)``. If not, ``priority``
+        will default to 0.
         """
         try:
             tag_obj, priority = tag
         except TypeError:
             tag_obj, priority = tag, 0
         tag_obj = self._check_tag(tag_obj)
-        self.tag_list.setdefault(priority, []).append(tag_obj)
+        self._tag_list.setdefault(priority, []).append(tag_obj)
 
     def clear(self):
         """ Clear the internal tag list. """
-        self.tag_list = {}
+        self._tag_list = {}
 
     def __iter__(self):
         """ Yield contained tags. """
-        for i in sorted(self.tag_list.keys()):
-            for tag in self.tag_list[i]:
+        for i in sorted(self._tag_list.keys()):
+            for tag in self._tag_list[i]:
                 yield tag
 
 # "Global" manager instance.
@@ -180,17 +175,15 @@ def get_manager():
 
 def set_manager(manager):
     """
-    Set the global TagManager to manager. Only useful to setup a custom manager.
+    Set the global TagManager to ``manager``. Only useful to setup a custom
+    manager.
     """
     global _manager
     LOGGER.info("New Tag manager: %s", manager)
     _manager = manager
 
 def register(*tag_list):
-    """
-    Register a sequence of tags.
-    :param *tag_list: List of tags to be registered, as positional arguments.
-    """
+    """ Register a sequence of tags. """
     manager = get_manager()
     for tag in tag_list:
         manager.add(tag)

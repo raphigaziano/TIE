@@ -8,7 +8,7 @@ except ImportError:
 
 config = {
     'name': 'TIE',
-    'version': '0.1dev',
+    'version': '0.1.0',
     'author': 'Raphi',
     'author_email': 'r.gaziano@gmail.com',
     'packages': ['tie', 'tie.tests'],

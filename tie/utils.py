@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 """
-Various internal utilities for the tie library.
+Various *internal* utilities for the tie library.
+Utilities meant to be exposed to the user should be defined in the helpers.py
+module, not here.
 """
 import sys
 

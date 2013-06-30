@@ -22,7 +22,7 @@ from tie.exceptions import ContextWarning
 
 def sub(match, **context):
     """
-    Default Ttag processor.
+    Default tag processor.
     Returns the appropriate value from **context for a matched tag.
     """
     tag = helpers.get_single_group(match)

@@ -86,17 +86,7 @@ A naive exemple could look like this:
    >>> print(res)
    Hello, Darth Vader, lord of the sith!
 
-Read the
+Read the (still incomplete)
 `Full documentation <https://tie.readthedocs.org/en/latest/index.html>`_
 hosted on readthedocs.
 
-TODO
-----
-
-- **DOC** (including this readme)
-- Cleanup spec & code
-- Regex helpers
-- Moar tests (integration)
-- Release v0.1
-
-for more info on the lib's goals, see doc/spec.rst.

@@ -88,18 +88,18 @@ class TestProcessing(unittest.TestCase):
     def test_naive_substituion(self):
         """ Very naive text substitution """
         t = Tag("name")
-        self.assertEqual("i am raphi", t.process("i am name", name="raphi"))
+        self.assertEqual({'name': 'raphi'}, t.process("i am name", name="raphi"))
 
     def test_several_matches_sub(self):
         """ Substitution with several matches of a tag """
         t = Tag("name")
-        self.assertEqual("raphi, raphi & raphi", t.process("name, name & name",
+        self.assertEqual({'name': 'raphi'}, t.process("name, name & name",
                                                             name="raphi"))
 
     def test_basic_regex_sub(self):
         """ Regex based basic substitution """
         t = Tag("%\w*%")
-        self.assertEqual("i am raphi", t.process("i am %name%",
+        self.assertEqual({'%name%': 'raphi'}, t.process("i am %name%",
                                                  **{'%name%':"raphi"}))
 
 def suite():

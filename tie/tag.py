@@ -74,7 +74,7 @@ class Tag(object):
         Return a dictionnary mapping the matched tags from the template with
         their corresponding values.
         """
-        if self.cached:
+        if self.cached and self.cache:
             return self.cache
         out = {}
         num_matches = 0

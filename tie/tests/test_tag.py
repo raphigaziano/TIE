@@ -57,6 +57,12 @@ class TestTag(unittest.TestCase):
         t = Tag("mudmud", processor=dummy_processor)
         self.assertEqual(t.processor, dummy_processor)
 
+    def test_cache(self):
+        """ Cached tag should keep results in their cache dict """
+        t = Tag('dummy', cached=True)
+        t.process('dummy dumdum dummy', **{'dummy': 'value'})
+        self.assertEqual({'dummy': 'value'}, t.cache)
+
 class TestMatches(unittest.TestCase):
 
     tag = Tag("%\w+")

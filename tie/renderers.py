@@ -13,6 +13,7 @@ __call__ method) and must accept the following arguments:
 After any processing is done, they should return the rendered template as a 
 unicode string.
 """
+import re
 from tie import tag
 
 def default_renderer(template, **context):
@@ -21,6 +22,11 @@ def default_renderer(template, **context):
     Process each registered Tag and returns the whole processed string.
     """
     out = template.template
+    vals = {}
     for t in tag.get_manager():
-        out = t.process(out, **context)
-    return out
+        vals.update(t.process(out, **context))
+    if vals:
+        rgx = re.compile('|'.join(vals.keys()))
+        return rgx.sub(lambda m: vals[m.group(0)], out)
+    else: 
+        return out

@@ -28,7 +28,8 @@ class Tag(object):
     Altering the tag matching logic will require redefining the match method.
     """
 
-    def __init__(self, pattern, flags=0, processor=processors.sub): 
+    def __init__(self, pattern, flags=0, processor=processors.sub,
+                 cached=False): 
         """
         Parameters:
         pattern:   Regular expression used for tag matching.
@@ -46,6 +47,9 @@ class Tag(object):
                     (pattern, type(pattern))
             )
         self.processor = processor
+
+        self.cached = cached
+        self.cache  = {}
 
     def __str__(self):
         """ To string """
@@ -67,19 +71,24 @@ class Tag(object):
         Scan the template string for all occurences of the Tag and process
         those using the instance's own processor function.
         Context args will be passed to the processor function.
-        Return the processed template.
+        Return a dictionnary mapping the matched tags from the template with
+        their corresponding values.
         """
-        out = template
+        if self.cached:
+            return self.cache
+        out = {}
         num_matches = 0
         for m in self.match(template):
             num_matches += 1
             src_tag = m.group(0)
             LOGGER.debug("%s matched %s", self, src_tag)
-            val = self.processor(m, **context)
-            LOGGER.debug("Substituting %s for %s", val, src_tag)
-            out = out.replace(src_tag, val)
-            # out = re.sub(src_tag, val, out)
+            if src_tag not in out:
+                val = self.processor(m, **context)
+                LOGGER.debug("Substituting %s for %s", val, src_tag)
+                out[src_tag] = val
         LOGGER.debug("Found %i matches for %s", num_matches, self)
+        if self.cached:
+            self.cache = out
         return out
 
 ### Managers ###

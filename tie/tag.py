@@ -91,6 +91,10 @@ class Tag(object):
             self.cache = out
         return out
 
+    def clear_cache(self):
+        """ Clear the tag's internal cache """
+        self.cache = {}
+
 ### Managers ###
 ################
 
@@ -129,6 +133,11 @@ class TagManager(object):
         for tag in self._tag_list:
             yield tag
     
+    def clear_cache(self):
+        """ Clear the cache of all contained tags """
+        for tag in self:
+            tag.clear_cache()
+
     @staticmethod
     def _check_tag(tag, cls=Tag):
         """

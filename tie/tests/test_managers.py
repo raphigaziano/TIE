@@ -22,7 +22,8 @@ if sys.version < '2.7':
 class TestTagManager(unittest.TestCase):
 
     def setUp(self): pass
-    def tearDown(self): pass
+    def tearDown(self): 
+        tag.get_manager().clear()
 
     def test_manager_iterator(self): 
         """ Iterating directly over a TagManager """
@@ -42,6 +43,23 @@ class TestTagManager(unittest.TestCase):
         """ Getting the current TagManager """
         tm = tag.get_manager()
         self.assertEqual(tm, tag._manager)
+
+    def test_global_cache_clear(self):
+        """ Clearing all registered tags' cache """
+        tag.register(
+            tag.Tag("dummy",  cached=True),
+            tag.Tag("dumdum", cached=True),
+            tag.Tag("mudmud", cached=True),
+        )
+        m = tag.get_manager()
+        for t in m:
+            t.process("dummydumdummudmud", **{'dummy':'dummy',
+                                              'dumdum':'dumdum',
+                                              'mudmud':'mudmud'}
+            )
+        m.clear_cache()
+        for t in m:
+            self.assertEqual({}, t.cache)
 
 class TestPriorityTagManager(unittest.TestCase):
 

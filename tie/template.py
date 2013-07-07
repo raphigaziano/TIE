@@ -93,7 +93,10 @@ class TemplateManager(object):
             yield template
     
     def __getattr__(self, key):
-        """ """
+        """ 
+        Try and return a contained template whose name matches the key arg.
+        Raises an AttributeError if none is found.
+        """
         for t in self:
             if t.name == key:
                 return t

@@ -5,6 +5,7 @@ Tag managers tests
 """
 from __future__ import unicode_literals
 
+import os
 import sys
 import unittest
 
@@ -187,3 +188,33 @@ class TemplateTagManager(unittest.TestCase):
     def test_invalid_attr_access(self):
         """ Accessing a non registered name should raise an AttributeError like any non existing attribute """
         self.assertRaises(AttributeError, getattr, self.manager, 'dummy')
+
+class DirWatcherTemplateTagManager(unittest.TestCase):
+
+    def setUp(self): pass
+    def tearDown(self): pass
+
+    def test_add_directory(self):
+        """ Adding a directory to the watched dirs list """
+        m = template.DirWatcherTemplateManager()
+        # Note: assumes tests are run from the project's root directory
+        m.add_directory('tie/tests')
+        self.assertEqual(os.path.dirname(__file__), m.dirs[0])
+
+    def test_add_dirs_on_instanciation(self):
+        """ Adding several watched directories on manager's instanciation """
+        root_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        pathes = [
+            'tie/tests',
+            'doc',
+            '.'
+        ]
+        m = template.DirWatcherTemplateManager(*pathes)
+        for i, d in enumerate(pathes):
+            self.assertEqual(os.path.abspath(os.path.join(root_dir, d)), 
+                             m.dirs[i])
+
+    def test_valid_dirs(self):
+        """ Only existing directory can be added to a DirWatcherTemplateTagManager """
+        m = template.DirWatcherTemplateManager()
+        self.assertRaises(IOError, m.add_directory, 'dummy/directory')

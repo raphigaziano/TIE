@@ -57,3 +57,13 @@ class TestFileTemplate(unittest.TestCase):
     def test_filetemplate_instanciation_invalid_path(self):
         """ FileTemplate instanciation should fail if given an non-existent path """
         self.assertRaises(IOError, Template.from_file, "dummy")
+
+    def test_filetemplate_default_name(self):
+        """ FileTemplate name attr defaults to the given filename """
+        t = Template.from_file(self.tmplpath)
+        self.assertEqual('testtemplate', t.name)
+
+    def test_filetemplate_custom_name(self):
+        """ FileTemplate custom name """
+        t = Template.from_file(self.tmplpath, name='customname')
+        self.assertEqual('customname', t.name)

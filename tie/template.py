@@ -53,3 +53,52 @@ class Template(object):
             template_string = tmpl_f.read()
         return cls(template_string, *args, **kwargs)
         
+### Managers ###
+################
+
+class TemplateManager(object):
+    """
+    Template Container.
+    Iterating over it will yield each contained template in order of their 
+    insertion.
+
+    Templates are stored in a simple list. Eventual subclasses will need to
+    redefine their access and __iter__ method if they decide to use another
+    data structure.
+    """
+    def __init__(self):
+        self._template_list = []
+
+    def add(self, template):
+        """
+        Register a new template.
+        Override this method to accomodate a different internal data strucutre.
+        """
+        self._template_list.append(self._check_template(template))
+
+    def clear(self):
+        """
+        Clear the internal template list.
+        Override to accomodate a different internal data strucutre.
+        """
+        self._template_list = []
+
+    def __iter__(self):
+        """
+        Yield contained templates.
+        Override to accomodate a different internal data strucutre.
+        """
+        for template in self._template_list:
+            yield template
+    
+    @staticmethod
+    def _check_template(template, cls=Template):
+        """
+        Instances of cls (or a subclass of it) will be returned unchanged.
+        Any other type will be sent to cls' constructor, which is responsible
+        for type checking.
+        cls defaults to Template.
+        """
+        if not isinstance(template, cls):
+            return cls(template)
+        return template

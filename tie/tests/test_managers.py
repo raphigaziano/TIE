@@ -9,8 +9,10 @@ import sys
 import unittest
 
 from tie import tag 
+from tie import template
 
-Tag = tag.Tag
+Tag      = tag.Tag
+Template = template.Template
 
 def assertListEqual(self, l_1, l_2):
     """ Replacement of unittest.TestCase.assertListEqual() for 2.6 """
@@ -153,3 +155,35 @@ class TestRegistration(unittest.TestCase):
         t = DummyTag("dummy")
         tag.register(t)
         self.assertTrue(isinstance(tag.get_manager()._tag_list[0], DummyTag))
+
+class TemplateTagManager(unittest.TestCase):
+
+    templates = [
+        Template('foo', name='foo'),
+        Template('bar', name='bar'),
+        Template('baz', name='baz')
+    ]
+
+    manager = template.TemplateManager()
+
+    def setUp(self):
+        for t in self.templates:
+            self.manager.add(t)
+
+    def tearDown(self):
+        self.manager.clear()
+
+    def test_manager_iterator(self): 
+        """ Iterating directly over a TemplateManager """
+        for i, t in enumerate(self.manager):
+            self.assertEqual(t, self.templates[i])
+
+    def test_access_named_templates(self):
+        """ Accessing a template from the manager via attribute lookup """
+        self.assertEqual(self.templates[0], self.manager.foo)
+        self.assertEqual(self.templates[1], self.manager.bar)
+        self.assertEqual(self.templates[2], self.manager.baz)
+
+    def test_invalid_attr_access(self):
+        """ Accessing a non registered name should raise an AttributeError like any non existing attribute """
+        self.assertRaises(AttributeError, getattr, self.manager, 'dummy')

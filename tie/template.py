@@ -19,7 +19,7 @@ class Template(object):
     Basic customization can be achieved by providing a custom rendering
     callback.
     """
-    def __init__(self, tmpl, renderer=renderers.default_renderer):
+    def __init__(self, tmpl, name='', renderer=renderers.default_renderer):
         """ 
         Parameters:
         tmpl:     Template string.
@@ -27,6 +27,7 @@ class Template(object):
                   Defaults to renderers.default_renderer.
         """
         self.template = tmpl
+        self.name     = name
         self.renderer = renderer
     
     def __call__(self, **context):
@@ -91,6 +92,13 @@ class TemplateManager(object):
         for template in self._template_list:
             yield template
     
+    def __getattr__(self, key):
+        """ """
+        for t in self:
+            if t.name == key:
+                return t
+        raise AttributeError("Invalid attribute or template name %s" % key)
+
     @staticmethod
     def _check_template(template, cls=Template):
         """

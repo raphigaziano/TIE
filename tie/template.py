@@ -4,6 +4,7 @@
 Template classes and utilities.
 
 """
+import os
 import logging
 
 from tie import renderers
@@ -48,11 +49,13 @@ class Template(object):
         return self.renderer(self, **context)
 
     @classmethod
-    def from_file(cls, tmpl_path, *args, **kwargs):
+    def from_file(cls, tmpl_path, name='', *args, **kwargs):
         """ Alternative constructor -> Creates a template from a file. """
         with open(tmpl_path, 'r') as tmpl_f:
             template_string = tmpl_f.read()
-        return cls(template_string, *args, **kwargs)
+        if not name:
+            name = os.path.splitext(os.path.basename(tmpl_path))[0]
+        return cls(template_string, name=name, *args, **kwargs)
         
 ### Managers ###
 ################
@@ -100,7 +103,7 @@ class TemplateManager(object):
         for t in self:
             if t.name == key:
                 return t
-        raise AttributeError("Invalid attribute or template name %s" % key)
+        raise AttributeError("Invalid attribute or template name: %s" % key)
 
     @staticmethod
     def _check_template(template, cls=Template):
@@ -113,3 +116,17 @@ class TemplateManager(object):
         if not isinstance(template, cls):
             return cls(template)
         return template
+
+class DirWatcherTemplateManager(TemplateManager):
+    """ """
+    def __init__(self, *dirs):
+        super(DirWatcherTemplateManager, self).__init__()
+        self.dirs = []
+        for d in dirs:
+            self.add_directory(d)
+
+    def add_directory(self, dir_): # TODO: param to control index
+        """ """
+        if not os.path.isdir(dir_):
+            raise IOError('%s is not a valid directory' % dir_)
+        self.dirs.append(os.path.abspath(dir_))

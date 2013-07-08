@@ -248,6 +248,19 @@ class DirectoryWatcher(unittest.TestCase):
         actual = list(m.list_templates())
         self.assertListEqual(expected, actual)
 
+    def test_list_templates_basenames(self):
+        """ Get only templates' basenames when listing them """
+        d = 'tie/tests/templates'
+        m = template.DirectoryWatcher(d)
+        expected = [
+            'foo',
+            'bar', 
+            'baz', 
+            'dummy'
+        ]
+        actual = list(m.list_templates(basenames=True))
+        self.assertListEqual(expected, actual)
+
     def test_list_templates_non_recursive(self):
         """ No recursion when listing templates if flag is false """
         d = 'tie/tests/templates'

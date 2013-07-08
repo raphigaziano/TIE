@@ -141,18 +141,23 @@ class DirectoryWatcher(TemplateManager):
         else:
             self.dirs.insert(index, os.path.abspath(dir_))
 
-    def list_templates(self):
+    def list_templates(self, basenames=False):
         """ """
+        res = []
         for d in self.dirs:
             if self.recursive:
                 for root, dirs, files in os.walk(d):
                     for f in files:
-                        yield os.path.abspath(os.path.join(root, f))
+                        res.append(os.path.abspath(os.path.join(root, f)))
             else:
                 for f in os.listdir(d):
                     path = os.path.abspath(os.path.join(d, f))
                     if os.path.isfile(path):
-                        yield path
+                        res.append(path)
+        for t in res:
+            if basenames:
+                t = _path_2_tmpl_name(t)
+            yield t
 
     def _load_template(self, tmpl_name):
         """ """
@@ -173,6 +178,5 @@ class DirectoryWatcher(TemplateManager):
 
     def __iter__(self):
         """ """
-        for t_path in self.list_templates():
-            t_name = _path_2_tmpl_name(t_path)
+        for t_name in self.list_templates(basenames=True):
             yield getattr(self, t_name)

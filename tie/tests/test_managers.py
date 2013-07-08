@@ -189,32 +189,118 @@ class TemplateTagManager(unittest.TestCase):
         """ Accessing a non registered name should raise an AttributeError like any non existing attribute """
         self.assertRaises(AttributeError, getattr, self.manager, 'dummy')
 
-class DirWatcherTemplateTagManager(unittest.TestCase):
+class DirectoryWatcher(unittest.TestCase):
+
+    root_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
     def setUp(self): pass
     def tearDown(self): pass
 
     def test_add_directory(self):
         """ Adding a directory to the watched dirs list """
-        m = template.DirWatcherTemplateManager()
+        m = template.DirectoryWatcher()
         # Note: assumes tests are run from the project's root directory
         m.add_directory('tie/tests')
         self.assertEqual(os.path.dirname(__file__), m.dirs[0])
 
     def test_add_dirs_on_instanciation(self):
         """ Adding several watched directories on manager's instanciation """
-        root_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
         pathes = [
-            'tie/tests',
+            'tie/tests/templates',
             'doc',
             '.'
         ]
-        m = template.DirWatcherTemplateManager(*pathes)
+        m = template.DirectoryWatcher(*pathes)
         for i, d in enumerate(pathes):
-            self.assertEqual(os.path.abspath(os.path.join(root_dir, d)), 
+            self.assertEqual(os.path.abspath(os.path.join(self.root_dir, d)), 
                              m.dirs[i])
 
     def test_valid_dirs(self):
-        """ Only existing directory can be added to a DirWatcherTemplateTagManager """
-        m = template.DirWatcherTemplateManager()
+        """ Only existing directory can be added to a DirectoryWatcher """
+        m = template.DirectoryWatcher()
         self.assertRaises(IOError, m.add_directory, 'dummy/directory')
+
+    def test_directory_insert_index(self):
+        """ Inserting a directory with a custom index """
+        pathes = [
+            '.',
+            'tie/tests'
+        ]
+        m = template.DirectoryWatcher()
+        m.add_directory(pathes[0])
+        m.add_directory(pathes[1], 0)
+        for i, p in enumerate(reversed(pathes)):
+            self.assertEqual(os.path.abspath(os.path.join(self.root_dir, p)),
+                             m.dirs[i])
+
+    def test_list_templates(self):
+        """ Listing templates from a watched directory (with recursion) """
+        d = 'tie/tests/templates'
+        m = template.DirectoryWatcher(d)
+        expected = [
+                os.path.abspath(os.path.join(self.root_dir, d, f)) for
+                        f in ['foo.txt',
+                              'bar.txt', 
+                              'baz.txt', 
+                              'subdir/dummy.txt'
+                        ]
+        ]
+        actual = list(m.list_templates())
+        self.assertListEqual(expected, actual)
+
+    def test_list_templates_non_recursive(self):
+        """ No recursion when listing templates if flag is false """
+        d = 'tie/tests/templates'
+        m = template.DirectoryWatcher(d)
+        m.recursive = False
+        expected = [
+                os.path.abspath(os.path.join(self.root_dir, d, f)) for
+                        f in ['foo.txt',
+                              'bar.txt', 
+                              'baz.txt', 
+                        ]
+        ]
+        actual = list(m.list_templates())
+        self.assertListEqual(expected, actual)
+
+    def test_load_template(self):
+        """ Load a templatefrom a watched directory """
+        m = template.DirectoryWatcher('tie/tests/templates')
+        t = m._load_template('foo')
+        self.assertEqual(t.name, 'foo')
+        self.assertEqual(1, len(m._template_list))
+        self.assertEqual(m._template_list[0].name, 'foo')
+
+    def test_load_invalid_template(self):
+        """ Raise TemplateError if trying to load an invalid template """
+        m = template.DirectoryWatcher('tie/tests/templates')
+        self.assertRaises(template.TemplateError, m._load_template, 'oof')
+        
+    def test_get_loaded_template(self):
+        """ Getting an already loaded template from a DirectoryWatcher """
+        m = template.DirectoryWatcher('tie/tests/templates')
+        m.add(template.Template.from_file('tie/tests/templates/foo.txt'))
+        t = m.foo
+        self.assertIsNotNone(t)
+        self.assertEqual('foo', t.name)
+
+    def test_get_non_loaded_template(self):
+        """ Getting an unloaded template from a DirectoryWatcher """
+        m = template.DirectoryWatcher('tie/tests/templates')
+        t = m.foo
+        self.assertIsNotNone(t)
+        self.assertEqual('foo', t.name)
+
+    def test_get_template_error(self):
+        """ Trying to get a non-existing template should raise a TemplateError """
+        m = template.DirectoryWatcher('tie/tests/templates')
+        self.assertRaises(template.TemplateError, getattr, m, 'oof')
+
+    def test_iteration(self):
+        """ Load all templates on iteration """
+        m = template.DirectoryWatcher('tie/tests/templates')
+        expected = [
+            'foo', 'bar', 'baz', 'dummy'
+        ]
+        actual = [t.name for t in m]
+        self.assertListEqual(actual, expected)

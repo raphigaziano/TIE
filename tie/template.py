@@ -100,7 +100,7 @@ class TemplateManager(object):
         Try and return a contained template whose name matches the key arg.
         Raises an AttributeError if none is found.
         """
-        for t in self:
+        for t in self._template_list:
             if t.name == key:
                 return t
         raise AttributeError("Invalid attribute or template name: %s" % key)
@@ -117,16 +117,58 @@ class TemplateManager(object):
             return cls(template)
         return template
 
-class DirWatcherTemplateManager(TemplateManager):
+class DirectoryWatcher(TemplateManager):
     """ """
     def __init__(self, *dirs):
-        super(DirWatcherTemplateManager, self).__init__()
+        super(DirectoryWatcher, self).__init__()
+
         self.dirs = []
         for d in dirs:
             self.add_directory(d)
 
-    def add_directory(self, dir_): # TODO: param to control index
+        self.recursive = True
+
+    def add_directory(self, dir_, index=None):
         """ """
         if not os.path.isdir(dir_):
             raise IOError('%s is not a valid directory' % dir_)
-        self.dirs.append(os.path.abspath(dir_))
+        if index is None:
+            self.dirs.append(os.path.abspath(dir_))
+        else:
+            self.dirs.insert(index, os.path.abspath(dir_))
+
+    def list_templates(self):
+        """ """
+        for d in self.dirs:
+            if self.recursive:
+                for root, dirs, files in os.walk(d):
+                    for f in files:
+                        yield os.path.abspath(os.path.join(root, f))
+            else:
+                for f in os.listdir(d):
+                    path = os.path.abspath(os.path.join(d, f))
+                    if os.path.isfile(path):
+                        yield path
+
+    def _load_template(self, tmpl_name):
+        """ """
+        for t_f in self.list_templates():
+            t_n = os.path.splitext(os.path.basename(t_f))[0]
+            if t_n == tmpl_name:
+                t = Template.from_file(t_f, t_n)
+                self.add(t)
+                return t
+        raise TemplateError('No template named %s' % tmpl_name)
+
+    def __getattr__(self, tmpl_name):
+        """ """
+        try:
+            return super(DirectoryWatcher, self).__getattr__(tmpl_name)
+        except AttributeError:
+            return self._load_template(tmpl_name)
+
+    def __iter__(self):
+        """ """
+        for t_path in self.list_templates():
+            t_name = os.path.splitext(os.path.basename(t_path))[0]
+            yield getattr(self, t_name)

@@ -12,6 +12,10 @@ from tie.exceptions import TemplateError
 
 LOGGER = logging.getLogger(__name__)
 
+def _path_2_tmpl_name(tmpl_path):
+    """ """
+    return os.path.splitext(os.path.basename(tmpl_path))[0]
+
 class Template(object):
     """
     Template object.
@@ -54,7 +58,7 @@ class Template(object):
         with open(tmpl_path, 'r') as tmpl_f:
             template_string = tmpl_f.read()
         if not name:
-            name = os.path.splitext(os.path.basename(tmpl_path))[0]
+            name = _path_2_tmpl_name(tmpl_path)
         return cls(template_string, name=name, *args, **kwargs)
         
 ### Managers ###
@@ -153,7 +157,7 @@ class DirectoryWatcher(TemplateManager):
     def _load_template(self, tmpl_name):
         """ """
         for t_f in self.list_templates():
-            t_n = os.path.splitext(os.path.basename(t_f))[0]
+            t_n = _path_2_tmpl_name(t_f)
             if t_n == tmpl_name:
                 t = Template.from_file(t_f, t_n)
                 self.add(t)
@@ -170,5 +174,5 @@ class DirectoryWatcher(TemplateManager):
     def __iter__(self):
         """ """
         for t_path in self.list_templates():
-            t_name = os.path.splitext(os.path.basename(t_path))[0]
+            t_name = _path_2_tmpl_name(t_path)
             yield getattr(self, t_name)

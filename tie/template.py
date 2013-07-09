@@ -19,6 +19,7 @@ def _path_2_tmpl_name(tmpl_path):
     """
     return os.path.splitext(os.path.basename(tmpl_path))[0]
 
+
 class Template(object):
     """
     Template object.
@@ -127,6 +128,7 @@ class TemplateManager(object):
         if not isinstance(template, cls):
             return cls(template)
         return template
+
 
 class DirectoryWatcher(TemplateManager):
     """ 

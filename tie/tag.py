@@ -52,11 +52,11 @@ class Tag(object):
         self.cache  = {}
 
     def __str__(self):
-        """ To string """
+        """To string"""
         return "<%s %r>" % (self.__class__.__name__, self.regexp.pattern)
 
     def __repr__(self):
-        """ Instance representation """
+        """Instance representation"""
         return self.__str__()
 
     def match(self, template):
@@ -92,7 +92,7 @@ class Tag(object):
         return out
 
     def clear_cache(self):
-        """ Clear the tag's internal cache """
+        """Clear the tag's internal cache"""
         self.cache = {}
 
 ### Managers ###
@@ -134,7 +134,7 @@ class TagManager(object):
             yield tag
     
     def clear_cache(self):
-        """ Clear the cache of all contained tags """
+        """Clear the cache of all contained tags"""
         for tag in self:
             tag.clear_cache()
 
@@ -149,6 +149,7 @@ class TagManager(object):
         if not isinstance(tag, cls):
             return cls(tag)
         return tag
+
 
 class PriorityTagManager(TagManager):
     """
@@ -173,11 +174,11 @@ class PriorityTagManager(TagManager):
         self._tag_list.setdefault(priority, []).append(tag_obj)
 
     def clear(self):
-        """ Clear the internal tag list. """
+        """Clear the internal tag list."""
         self._tag_list = {}
 
     def __iter__(self):
-        """ Yield contained tags. """
+        """Yield contained tags."""
         for i in sorted(self._tag_list.keys()):
             for tag in self._tag_list[i]:
                 yield tag
@@ -189,7 +190,7 @@ _manager = TagManager()
 ##########################
 
 def get_manager():
-    """ Return the global TagManager """
+    """Return the global TagManager"""
     return _manager
 
 def set_manager(manager):
@@ -202,7 +203,7 @@ def set_manager(manager):
     _manager = manager
 
 def register(*tag_list):
-    """ Register a sequence of tags. """
+    """Register a sequence of tags."""
     manager = get_manager()
     for tag in tag_list:
         manager.add(tag)

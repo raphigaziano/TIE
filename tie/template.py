@@ -13,7 +13,10 @@ from tie.exceptions import TemplateError
 LOGGER = logging.getLogger(__name__)
 
 def _path_2_tmpl_name(tmpl_path):
-    """ """
+    """
+    Quick helper.
+    Get a file's basename (without extension) from its path and return it.
+    """
     return os.path.splitext(os.path.basename(tmpl_path))[0]
 
 class Template(object):
@@ -54,7 +57,11 @@ class Template(object):
 
     @classmethod
     def from_file(cls, tmpl_path, name='', *args, **kwargs):
-        """ Alternative constructor -> Creates a template from a file. """
+        """
+        Alternative constructor -> Creates a template from a file.
+        If `name` is not proveded, the template's name attribute will default
+        to the file's basename, without extension.
+        """
         with open(tmpl_path, 'r') as tmpl_f:
             template_string = tmpl_f.read()
         if not name:
@@ -104,9 +111,9 @@ class TemplateManager(object):
         Try and return a contained template whose name matches the key arg.
         Raises an AttributeError if none is found.
         """
-        for t in self._template_list:
-            if t.name == key:
-                return t
+        for template in self._template_list:
+            if template.name == key:
+                return template
         raise AttributeError("Invalid attribute or template name: %s" % key)
 
     @staticmethod
@@ -122,8 +129,16 @@ class TemplateManager(object):
         return template
 
 class DirectoryWatcher(TemplateManager):
-    """ """
+    """ 
+    Template Manager that dynamically loads templates from one or several
+    watched directories.
+    """
     def __init__(self, *dirs):
+        """
+        Parameters:
+        *dirs: list of directories to watch.
+               Pathes can be either relative or absolute.
+        """
         super(DirectoryWatcher, self).__init__()
 
         self.dirs = []
@@ -133,7 +148,13 @@ class DirectoryWatcher(TemplateManager):
         self.recursive = True
 
     def add_directory(self, dir_, index=None):
-        """ """
+        """ 
+        Add a single directory (`dir_`) to the list of watched directories.
+        `dir_` can be either a relative or absolute path (it will be stored as
+        an absolute path either way).
+        Optional argument `index` can be used to insert `dir_` at a specific
+        index (behave like the regular :func:`list.insert` method).
+        """
         if not os.path.isdir(dir_):
             raise IOError('%s is not a valid directory' % dir_)
         if index is None:
@@ -142,11 +163,17 @@ class DirectoryWatcher(TemplateManager):
             self.dirs.insert(index, os.path.abspath(dir_))
 
     def list_watched_templates(self, basenames=False):
-        """ """
+        """
+        Yield the pathes of all files contained in all watched directories,
+        recursively if the managers's instance's `recursive` attribute is set
+        to True (which it is by default).
+        Pathes will be absolute, unless the `basenames` argument is set to
+        True, in which case only the files' base names will be returned.
+        """
         res = []
         for d in self.dirs:
             if self.recursive:
-                for root, dirs, files in os.walk(d):
+                for root, _, files in os.walk(d):
                     for f in files:
                         res.append(os.path.abspath(os.path.join(root, f)))
             else:
@@ -154,29 +181,42 @@ class DirectoryWatcher(TemplateManager):
                     path = os.path.abspath(os.path.join(d, f))
                     if os.path.isfile(path):
                         res.append(path)
-        for t in res:
+        for t_path in res:
             if basenames:
-                t = _path_2_tmpl_name(t)
-            yield t
+                t_path = _path_2_tmpl_name(t_path)
+            yield t_path
 
     def _load_template(self, tmpl_name):
-        """ """
+        """
+        Load the `tmpl_name` template from disk, add it to the internal managed
+        list and return it.
+        Will raise a TemplateError if no template matched.
+        """
         for t_f in self.list_watched_templates():
             t_n = _path_2_tmpl_name(t_f)
             if t_n == tmpl_name:
-                t = Template.from_file(t_f, t_n)
-                self.add(t)
-                return t
+                template = Template.from_file(t_f, t_n)
+                self.add(template)
+                return template
         raise TemplateError('No template named %s' % tmpl_name)
 
     def __getattr__(self, tmpl_name):
-        """ """
+        """
+        Try and return a contained template whose name matches the key arg.
+        Raises an AttributeError if none is found.
+        The template will be loaded from disk if not already present in the
+        internal list of managed templates.
+        """
         try:
             return super(DirectoryWatcher, self).__getattr__(tmpl_name)
         except AttributeError:
             return self._load_template(tmpl_name)
 
     def __iter__(self):
-        """ """
+        """
+        Yield contained templates.
+        This will cause all available templates to be loaded from disk and
+        instanciated.
+        """
         for t_name in self.list_watched_templates(basenames=True):
             yield getattr(self, t_name)

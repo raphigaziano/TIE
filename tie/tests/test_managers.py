@@ -233,7 +233,7 @@ class DirectoryWatcher(unittest.TestCase):
             self.assertEqual(os.path.abspath(os.path.join(self.root_dir, p)),
                              m.dirs[i])
 
-    def test_list_templates(self):
+    def test_list_watched_templates(self):
         """ Listing templates from a watched directory (with recursion) """
         d = 'tie/tests/templates'
         m = template.DirectoryWatcher(d)
@@ -245,10 +245,10 @@ class DirectoryWatcher(unittest.TestCase):
                               'subdir/dummy.txt'
                         ]
         ]
-        actual = list(m.list_templates())
+        actual = list(m.list_watched_templates())
         self.assertListEqual(expected, actual)
 
-    def test_list_templates_basenames(self):
+    def test_list_watched_templates_basenames(self):
         """ Get only templates' basenames when listing them """
         d = 'tie/tests/templates'
         m = template.DirectoryWatcher(d)
@@ -258,10 +258,10 @@ class DirectoryWatcher(unittest.TestCase):
             'baz', 
             'dummy'
         ]
-        actual = list(m.list_templates(basenames=True))
+        actual = list(m.list_watched_templates(basenames=True))
         self.assertListEqual(expected, actual)
 
-    def test_list_templates_non_recursive(self):
+    def test_list_watched_templates_non_recursive(self):
         """ No recursion when listing templates if flag is false """
         d = 'tie/tests/templates'
         m = template.DirectoryWatcher(d)
@@ -273,7 +273,7 @@ class DirectoryWatcher(unittest.TestCase):
                               'baz.txt', 
                         ]
         ]
-        actual = list(m.list_templates())
+        actual = list(m.list_watched_templates())
         self.assertListEqual(expected, actual)
 
     def test_load_template(self):

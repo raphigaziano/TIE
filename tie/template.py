@@ -141,7 +141,7 @@ class DirectoryWatcher(TemplateManager):
         else:
             self.dirs.insert(index, os.path.abspath(dir_))
 
-    def list_templates(self, basenames=False):
+    def list_watched_templates(self, basenames=False):
         """ """
         res = []
         for d in self.dirs:
@@ -161,7 +161,7 @@ class DirectoryWatcher(TemplateManager):
 
     def _load_template(self, tmpl_name):
         """ """
-        for t_f in self.list_templates():
+        for t_f in self.list_watched_templates():
             t_n = _path_2_tmpl_name(t_f)
             if t_n == tmpl_name:
                 t = Template.from_file(t_f, t_n)
@@ -178,5 +178,5 @@ class DirectoryWatcher(TemplateManager):
 
     def __iter__(self):
         """ """
-        for t_name in self.list_templates(basenames=True):
+        for t_name in self.list_watched_templates(basenames=True):
             yield getattr(self, t_name)

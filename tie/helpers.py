@@ -56,3 +56,14 @@ def list_files(startdir, recursive=False, abspathes=True):
         elif recursive and os.path.isdir(path):
             for sub in list_files(path, recursive, abspathes):
                 yield sub
+
+### Template Helpers ###
+########################
+
+def path_to_tmpl_name(tmpl_path):
+    """
+    Quick helper.
+    Get a file's basename (without extension) from its path and return it.
+    """
+    return path_to_basename(tmpl_path, stripext=True)
+

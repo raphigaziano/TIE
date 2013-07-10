@@ -9,17 +9,9 @@ import logging
 
 from tie import renderers
 from tie.exceptions import TemplateError
-from tie.helpers import list_files, path_to_basename
+from tie.helpers import list_files, path_to_tmpl_name
 
 LOGGER = logging.getLogger(__name__)
-
-def _path_2_tmpl_name(tmpl_path):
-    """
-    Quick helper.
-    Get a file's basename (without extension) from its path and return it.
-    """
-    return path_to_basename(tmpl_path, stripext=True)
-
 
 class Template(object):
     """
@@ -67,7 +59,7 @@ class Template(object):
         with open(tmpl_path, 'r') as tmpl_f:
             template_string = tmpl_f.read()
         if not name:
-            name = _path_2_tmpl_name(tmpl_path)
+            name = path_to_tmpl_name(tmpl_path)
         return cls(template_string, name=name, *args, **kwargs)
         
 ### Managers ###
@@ -176,7 +168,7 @@ class DirectoryWatcher(TemplateManager):
         for d in self.dirs:
             for t_path in  list_files(d, recursive=self.recursive):
                 if basenames:
-                    yield _path_2_tmpl_name(t_path)
+                    yield path_to_tmpl_name(t_path)
                 else:
                     yield t_path
 
@@ -187,7 +179,7 @@ class DirectoryWatcher(TemplateManager):
         Will raise a TemplateError if no template matched.
         """
         for t_f in self.list_watched_templates():
-            t_n = _path_2_tmpl_name(t_f)
+            t_n = path_to_tmpl_name(t_f)
             if t_n == tmpl_name:
                 template = Template.from_file(t_f, t_n)
                 self.add(template)

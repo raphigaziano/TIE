@@ -9,6 +9,7 @@ import logging
 
 from tie import renderers
 from tie.exceptions import TemplateError
+from tie.helpers import list_files, path_to_basename
 
 LOGGER = logging.getLogger(__name__)
 
@@ -17,7 +18,7 @@ def _path_2_tmpl_name(tmpl_path):
     Quick helper.
     Get a file's basename (without extension) from its path and return it.
     """
-    return os.path.splitext(os.path.basename(tmpl_path))[0]
+    return path_to_basename(tmpl_path, stripext=True)
 
 
 class Template(object):
@@ -172,21 +173,12 @@ class DirectoryWatcher(TemplateManager):
         Pathes will be absolute, unless the `basenames` argument is set to
         True, in which case only the files' base names will be returned.
         """
-        res = []
         for d in self.dirs:
-            if self.recursive:
-                for root, _, files in os.walk(d):
-                    for f in files:
-                        res.append(os.path.abspath(os.path.join(root, f)))
-            else:
-                for f in os.listdir(d):
-                    path = os.path.abspath(os.path.join(d, f))
-                    if os.path.isfile(path):
-                        res.append(path)
-        for t_path in res:
-            if basenames:
-                t_path = _path_2_tmpl_name(t_path)
-            yield t_path
+            for t_path in  list_files(d, recursive=self.recursive):
+                if basenames:
+                    yield _path_2_tmpl_name(t_path)
+                else:
+                    yield t_path
 
     def _load_template(self, tmpl_name):
         """

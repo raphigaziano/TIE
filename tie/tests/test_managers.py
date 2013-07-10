@@ -240,9 +240,9 @@ class DirectoryWatcher(unittest.TestCase):
         expected = [
             os.path.abspath(os.path.join(self.root_dir, self.watched_dir, f)) 
                 for f in ['foo.txt',
-                      'bar.txt', 
-                      'baz.txt', 
-                      'subdir/dummy.txt'
+                          'subdir/dummy.txt',
+                          'bar.txt', 
+                          'baz.txt', 
                 ]
         ]
         actual = list(m.list_watched_templates())
@@ -253,9 +253,9 @@ class DirectoryWatcher(unittest.TestCase):
         m = template.DirectoryWatcher(self.watched_dir)
         expected = [
             'foo',
+            'dummy',
             'bar', 
             'baz', 
-            'dummy'
         ]
         actual = list(m.list_watched_templates(basenames=True))
         self.assertListEqual(expected, actual)
@@ -311,7 +311,7 @@ class DirectoryWatcher(unittest.TestCase):
         """ Load all templates on iteration """
         m = template.DirectoryWatcher(self.watched_dir)
         expected = [
-            'foo', 'bar', 'baz', 'dummy'
+            'foo', 'dummy', 'bar', 'baz'
         ]
         actual = [t.name for t in m]
         self.assertListEqual(actual, expected)

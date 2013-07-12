@@ -11,6 +11,7 @@ handling.
 """
 
 import os
+import fnmatch
 
 ### REGEX Helpers ###
 #####################
@@ -40,18 +41,21 @@ def path_to_basename(path, stripext=False):
         return os.path.splitext(basename)[0]
     return basename
 
-def list_files(startdir, recursive=False, abspathes=True):
+def list_files(startdir, recursive=False, abspathes=True, pattern=None):
     """
     Yield files contained in `startdir`.
     Optionnal parameters:
     `recursive`: Look for files recursively. Defaults to False.
     `abspathes`: Return absolute pathes. Defaults to True.
+    `pattern`:   Unix glob pattern to filter files further
     """
     for f in os.listdir(startdir):
         path = os.path.join(startdir, f)
         if os.path.isfile(path):
-            if abspathes:
-                path = os.path.abspath(path)
+            if not abspathes:
+                path = os.path.relpath(path)
+            if pattern is not None and not fnmatch.fnmatch(path, pattern):
+                continue
             yield path
         elif recursive and os.path.isdir(path):
             for sub in list_files(path, recursive, abspathes):

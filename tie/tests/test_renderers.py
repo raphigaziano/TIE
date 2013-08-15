@@ -75,3 +75,11 @@ class TestPyRenderer(unittest.TestCase):
         self.assertEqual(
             'Hello, my name is raphi and i\'m 26 years old',
             self.render(tmpl, **{'name': 'raphi', 'age': 26}))
+
+    def test_format_method(self):
+        """ Testing string.format method integration """
+        tmpl = template.Template('Hello, my name is {name} and i\'m {age} years old')
+        self.assertEqual(
+            'Hello, my name is raphi and i\'m 26 years old',
+            self.render(tmpl, **{'name': 'raphi', 'age': 26}))
+

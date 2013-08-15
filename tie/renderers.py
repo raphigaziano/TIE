@@ -37,5 +37,8 @@ def default_renderer(template, **context):
 def py_renderer(template, **context):
     """ """
     # TODO: try to use % () and format syntax
-    out = template.template
-    return out % context
+    out = template.template % context
+    if out != template.template:
+        return out
+    #return out % context
+    return out.format(**context)

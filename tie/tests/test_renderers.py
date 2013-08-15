@@ -18,10 +18,21 @@ class TestDefaultRenderer(unittest.TestCase):
     def tearDown(self):
         tag.get_manager().clear()
 
-    def test_no_tag_registered(self):
-        """ Template default renderer should return the template string unchanged if no tag has been registrered """
+    def test_no_tag_matched(self):
+        """ Template default renderer should return the template string unchanged if no tag matched """
+        tag.register('foo')
         tmpl = template.Template("dummydumdum")
         self.assertEqual(tmpl.template, self.render(tmpl))
+
+    def test_no_tag_registered(self):
+        """
+        Templates fall back to default python string interpolation if no 
+        tags are registered
+        """
+        tmpl = template.Template('Hello, my name is %(name)s and i\'m %(age)d years old')
+        self.assertEqual(
+            'Hello, my name is raphi and i\'m 26 years old',
+            self.render(tmpl, **{'name': 'raphi', 'age': 26}))
 
     def test_single_tag(self):
         """ Rendering a single tag template """
@@ -47,3 +58,20 @@ class TestDefaultRenderer(unittest.TestCase):
         tmpl = template.Template("--dumdum--, --dumdum-- & --dumdum--")
         self.assertEqual("foo, foo & foo",
                          self.render(tmpl, **{"--dumdum--": "foo"}))
+
+
+class TestPyRenderer(unittest.TestCase):
+
+    render = staticmethod(renderers.py_renderer)
+
+    def setUp(self): pass
+    def tearDown(self): pass
+
+    # TODO: MOAR!
+   
+    def test_basic_string_replacement(self):
+        """ Quick test """
+        tmpl = template.Template('Hello, my name is %(name)s and i\'m %(age)d years old')
+        self.assertEqual(
+            'Hello, my name is raphi and i\'m 26 years old',
+            self.render(tmpl, **{'name': 'raphi', 'age': 26}))

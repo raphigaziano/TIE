@@ -21,6 +21,9 @@ def default_renderer(template, **context):
     Default template renderer. 
     Process each registered Tag and returns the whole processed string.
     """
+    if len(tag.get_manager()) == 0:
+        # Try & fall back to python's regular string interpolation
+        return py_renderer(template, **context)
     out = template.template
     vals = {}
     for t in tag.get_manager():
@@ -30,3 +33,9 @@ def default_renderer(template, **context):
         return rgx.sub(lambda m: vals[m.group(0)], out)
     else: 
         return out
+
+def py_renderer(template, **context):
+    """ """
+    # TODO: try to use % () and format syntax
+    out = template.template
+    return out % context

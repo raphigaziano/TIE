@@ -237,41 +237,41 @@ class DirectoryWatcher(unittest.TestCase):
     def test_list_watched_templates(self):
         """ Listing templates from a watched directory (with recursion) """
         m = template.DirectoryWatcher(self.watched_dir)
-        expected = [
+        expected = sorted([
             os.path.abspath(os.path.join(self.root_dir, self.watched_dir, f)) 
                 for f in ['foo.txt',
                           'subdir/dummy.txt',
                           'bar.txt', 
                           'baz.txt', 
                 ]
-        ]
-        actual = list(m.list_watched_templates())
+        ])
+        actual = sorted(list(m.list_watched_templates()))
         self.assertListEqual(expected, actual)
 
     def test_list_watched_templates_basenames(self):
         """ Get only templates' basenames when listing them """
         m = template.DirectoryWatcher(self.watched_dir)
-        expected = [
+        expected = sorted([
             'foo',
             'dummy',
             'bar', 
             'baz', 
-        ]
-        actual = list(m.list_watched_templates(basenames=True))
+        ])
+        actual = sorted(list(m.list_watched_templates(basenames=True)))
         self.assertListEqual(expected, actual)
 
     def test_list_watched_templates_non_recursive(self):
         """ No recursion when listing templates if flag is false """
         m = template.DirectoryWatcher(self.watched_dir)
         m.recursive = False
-        expected = [
+        expected = sorted([
             os.path.abspath(os.path.join(self.root_dir, self.watched_dir, f))
                 for f in ['foo.txt',
                           'bar.txt', 
                           'baz.txt', 
                     ]
-        ]
-        actual = list(m.list_watched_templates())
+        ])
+        actual = sorted(list(m.list_watched_templates()))
         self.assertListEqual(expected, actual)
 
     def test_load_template(self):
@@ -310,8 +310,8 @@ class DirectoryWatcher(unittest.TestCase):
     def test_iteration(self):
         """ Load all templates on iteration """
         m = template.DirectoryWatcher(self.watched_dir)
-        expected = [
+        expected = sorted([
             'foo', 'dummy', 'bar', 'baz'
-        ]
-        actual = [t.name for t in m]
+        ])
+        actual = sorted([t.name for t in m])
         self.assertListEqual(actual, expected)

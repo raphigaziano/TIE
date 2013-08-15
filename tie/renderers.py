@@ -21,16 +21,13 @@ def default_renderer(template, **context):
     Default template renderer. 
     Process each registered Tag and returns the whole processed string.
     """
-    t_manager = tag.get_manager()
     out = template.template
-    if len(t_manager) == 0:
-        # Try & fall back to string.format
-        return out.format(**context)
     vals = {}
-    for t in t_manager:
+    for t in tag.get_manager():
         vals.update(t.process(out, **context))
     if vals:
         rgx = re.compile('|'.join(vals.keys()))
         return rgx.sub(lambda m: vals[m.group(0)], out)
     else: 
         return out
+

@@ -24,16 +24,6 @@ class TestDefaultRenderer(unittest.TestCase):
         tmpl = template.Template("dummydumdum")
         self.assertEqual(tmpl.template, self.render(tmpl))
 
-    def test_no_tag_registered(self):
-        """
-        Templates fall back to default python string formatting if no 
-        tags are registered
-        """
-        tmpl = template.Template('Hello, my name is {name} and i\'m {age} years old')
-        self.assertEqual(
-            'Hello, my name is raphi and i\'m 26 years old',
-            self.render(tmpl, **{'name': 'raphi', 'age': 26}))
-
     def test_single_tag(self):
         """ Rendering a single tag template """
         tag.register("%dummytag%")

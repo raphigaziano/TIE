@@ -26,10 +26,10 @@ class TestDefaultRenderer(unittest.TestCase):
 
     def test_no_tag_registered(self):
         """
-        Templates fall back to default python string interpolation if no 
+        Templates fall back to default python string formatting if no 
         tags are registered
         """
-        tmpl = template.Template('Hello, my name is %(name)s and i\'m %(age)d years old')
+        tmpl = template.Template('Hello, my name is {name} and i\'m {age} years old')
         self.assertEqual(
             'Hello, my name is raphi and i\'m 26 years old',
             self.render(tmpl, **{'name': 'raphi', 'age': 26}))
@@ -58,28 +58,4 @@ class TestDefaultRenderer(unittest.TestCase):
         tmpl = template.Template("--dumdum--, --dumdum-- & --dumdum--")
         self.assertEqual("foo, foo & foo",
                          self.render(tmpl, **{"--dumdum--": "foo"}))
-
-
-class TestPyRenderer(unittest.TestCase):
-
-    render = staticmethod(renderers.py_renderer)
-
-    def setUp(self): pass
-    def tearDown(self): pass
-
-    # TODO: MOAR!
-   
-    def test_basic_string_replacement(self):
-        """ Quick test """
-        tmpl = template.Template('Hello, my name is %(name)s and i\'m %(age)d years old')
-        self.assertEqual(
-            'Hello, my name is raphi and i\'m 26 years old',
-            self.render(tmpl, **{'name': 'raphi', 'age': 26}))
-
-    def test_format_method(self):
-        """ Testing string.format method integration """
-        tmpl = template.Template('Hello, my name is {name} and i\'m {age} years old')
-        self.assertEqual(
-            'Hello, my name is raphi and i\'m 26 years old',
-            self.render(tmpl, **{'name': 'raphi', 'age': 26}))
 

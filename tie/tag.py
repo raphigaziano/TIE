@@ -133,6 +133,9 @@ class TagManager(object):
         for tag in self._tag_list:
             yield tag
     
+    def __len__(self):
+        return len(self._tag_list)
+
     def clear_cache(self):
         """Clear the cache of all contained tags"""
         for tag in self:

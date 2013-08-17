@@ -34,7 +34,7 @@ class TestTag(unittest.TestCase):
     # compiled rgxp.flags is 32 more than equivalent re.<flags> combination.
     def test_tag_regex_flags(self):
         """ Tag.__init__ should pass optional flags to re.compile """
-        if sys.version_info < (2, 6, 0):
+        if sys.version_info[0] > 3:
             raise SkipTest
         # No flags
         t = Tag("pattern")

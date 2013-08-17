@@ -9,6 +9,8 @@ import unittest
 import sys
 import re
 
+from nose.plugins.skip import SkipTest
+
 from tie import tag 
 from tie import processors
 
@@ -30,9 +32,10 @@ class TestTag(unittest.TestCase):
 
     # Failing with 3.2:
     # compiled rgxp.flags is 32 more than equivalent re.<flags> combination.
-    @unittest.skipIf(sys.version_info[0] > 2, reason='Failing under 3.*. Not too bad.')
     def test_tag_regex_flags(self):
         """ Tag.__init__ should pass optional flags to re.compile """
+        if sys.version_info < (2, 6, 0):
+            raise SkipTest
         # No flags
         t = Tag("pattern")
         self.assertEqual(t.regexp.flags, 0)

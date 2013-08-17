@@ -35,6 +35,8 @@ class TestTag(unittest.TestCase):
     def test_tag_regex_flags(self):
         """ Tag.__init__ should pass optional flags to re.compile """
         if sys.version_info[0] > 3:
+            # skip this test if py3.*
+            # Using nose's SkipTest exception for py2.6 compatibility.
             raise SkipTest
         # No flags
         t = Tag("pattern")

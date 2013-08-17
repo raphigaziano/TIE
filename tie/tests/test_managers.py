@@ -21,7 +21,7 @@ def assertListEqual(self, l_1, l_2):
 
 def assertIsNotNone(self, val):
     """ Replacement of unittest.TestCase.assertIsNotNone) for 2.6 """
-    self.assertTrue(all(val is not None))
+    self.assertTrue(val is not None)
 
 if sys.version < '2.7':
     setattr(unittest.TestCase, 'assertListEqual', assertListEqual)

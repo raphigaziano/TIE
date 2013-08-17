@@ -19,8 +19,13 @@ def assertListEqual(self, l_1, l_2):
     """ Replacement of unittest.TestCase.assertListEqual() for 2.6 """
     self.assertTrue(all([item == l_2[i] for i, item in enumerate(l_1)]))
 
+def assertIsNotNone(self, val):
+    """ Replacement of unittest.TestCase.assertIsNotNone) for 2.6 """
+    self.assertTrue(all(val is not None))
+
 if sys.version < '2.7':
     setattr(unittest.TestCase, 'assertListEqual', assertListEqual)
+    setattr(unittest.TestCase, 'assertIsNotNone', assertIsNotNone)
 
 class TestTagManager(unittest.TestCase):
 

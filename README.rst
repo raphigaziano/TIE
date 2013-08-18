@@ -6,6 +6,11 @@ Template Illiterate Engine
 
 .. image:: https://www.travis-ci.org/raphigaziano/TIE.png?branch=master,develop
     :target: https://www.travis-ci.org/raphigaziano/TIE
+    :alt: Build Status
+
+.. image:: https://coveralls.io/r/raphigaziano/TIE/badge.png?branch=develop
+    :target: href='https://coveralls.io/r/raphigaziano/TIE?branch=develop
+    :alt: Coverage Status
 
 .. image:: https://pypip.in/v/TIE/badge.png
     :target: https://crate.io/packages/$REPO/

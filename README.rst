@@ -7,6 +7,14 @@ Template Illiterate Engine
 .. image:: https://www.travis-ci.org/raphigaziano/TIE.png?branch=master,develop
     :target: https://www.travis-ci.org/raphigaziano/TIE
 
+.. image:: https://pypip.in/v/$REPO/badge.png
+    :target: https://crate.io/packages/$REPO/
+    :alt: Latest PyPI version
+
+.. image:: https://pypip.in/d/$REPO/badge.png
+    :target: https://crate.io/packages/$REPO/
+    :alt: Number of PyPI downloads
+
 .. image:: https://raw.github.com/raphigaziano/TIE/master/TIE.jpg
    :alt: Twin Ion Engine of Awesomeness
    :align: center

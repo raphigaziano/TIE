@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
+import tie
+
 try:
     from setuptools import setup
 except ImportError:
@@ -8,12 +10,12 @@ except ImportError:
 
 config = {
     'name': 'TIE',
-    'version': '0.1.0',
+    'version': tie.__version__,
     'author': 'Raphi',
     'author_email': 'r.gaziano@gmail.com',
     'packages': ['tie'],
     'scripts': [], # any script in the bin directory
-    'url': 'https://pypi.python.org/pypi/TIE',
+    'url': 'https://github.com/raphigaziano/TIE.git',
     'download_url': None,
     'license': 'LICENCE.txt',
     'description': 'A minimalist template ENGINE allowing users to define '

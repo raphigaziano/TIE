@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
+import tie
+
 try:
     from setuptools import setup
 except ImportError:
@@ -8,7 +10,7 @@ except ImportError:
 
 config = {
     'name': 'TIE',
-    'version': '0.1.0',
+    'version': tie.__version__,
     'author': 'Raphi',
     'author_email': 'r.gaziano@gmail.com',
     'packages': ['tie'],

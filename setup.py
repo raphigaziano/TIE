@@ -15,7 +15,7 @@ config = {
     'author_email': 'r.gaziano@gmail.com',
     'packages': ['tie'],
     'scripts': [], # any script in the bin directory
-    'url': 'https://pypi.python.org/pypi/TIE',
+    'url': 'https://github.com/raphigaziano/TIE.git',
     'download_url': None,
     'license': 'LICENCE.txt',
     'description': 'A minimalist template ENGINE allowing users to define '

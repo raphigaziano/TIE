@@ -13,11 +13,11 @@ Template Illiterate Engine
     :alt: Coverage Status
 
 .. image:: https://pypip.in/v/TIE/badge.png
-    :target: https://crate.io/packages/$REPO/
+    :target: https://badge.fury.io/py/TIE
     :alt: Latest PyPI version
 
 .. image:: https://pypip.in/d/TIE/badge.png
-    :target: https://crate.io/packages/$REPO/
+    :target: https://crate.io/packages/TIE?version=lastest
     :alt: Number of PyPI downloads
 
 .. image:: https://raw.github.com/raphigaziano/TIE/master/TIE.jpg

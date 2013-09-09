@@ -21,6 +21,7 @@ Dependencies
 
 - None! (Besides Python, obviously. TIE has been tested with python 2.7 & 3.2, 
   under both Linux & Windows.)
+  Test suite also passes with 2.6, 3.3 & pypy.
 
 User Guide
 ----------

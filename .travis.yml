@@ -7,12 +7,11 @@ python:
     - "3.3"
     - "pypy"
 
-# Version dependant dependencies:
- - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install unittest2; fi
-
 install:
     # - "pip install -r requirements.txt --use-mirrors"
     - "pip install coveralls --use-mirrors"
+    # Version dependant dependencies:
+    - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install unittest2; fi
 
 script: nosetests --with-coverage
 

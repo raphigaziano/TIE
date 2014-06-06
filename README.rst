@@ -4,8 +4,8 @@ TIE
 
 Template Illiterate Engine
 
-.. image:: https://www.travis-ci.org/raphigaziano/TIE.png?branch=master,develop
-    :target: https://www.travis-ci.org/raphigaziano/TIE
+.. image:: https://travis-ci.org/raphigaziano/TIE.png?branch=master,develop
+    :target: https://travis-ci.org/raphigaziano/TIE
     :alt: Build Status
 
 .. image:: https://coveralls.io/repos/raphigaziano/TIE/badge.png?branch=develop
